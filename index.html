@@ -1,1 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Official US IQ Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; text-align: center; margin: 0; padding: 20px; }
+        .container { max-width: 600px; background: white; padding: 30px; margin: 0 auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        h1 { color: #d32f2f; }
+        .question { display: none; margin-bottom: 20px; }
+        .question.active { display: block; }
+        button { background-color: #28a745; color: white; border: none; padding: 15px 20px; font-size: 18px; cursor: pointer; border-radius: 5px; width: 100%; margin-top: 10px; font-weight: bold;}
+        button:hover { background-color: #218838; }
+        .progress { color: #666; margin-bottom: 20px; font-size: 14px;}
+    </style>
+</head>
+<body>
 
+<div class="container">
+    <h1>The American IQ Challenge</h1>
+    <p>Find out if your IQ is higher than the average American (98).</p>
+    
+    <div id="quiz-box">
+        <div class="progress" id="progress-text">Question 1 of 3</div>
+
+        <div class="question active" id="q1">
+            <h2>Which number comes next in the sequence: 2, 4, 8, 16, ...?</h2>
+            <button onclick="nextQuestion(2)">24</button>
+            <button onclick="nextQuestion(2)">32</button>
+            <button onclick="nextQuestion(2)">64</button>
+        </div>
+
+        <div class="question" id="q2">
+            <h2>If all Bloops are Razzies and all Razzies are Lazzies, then all Bloops are Lazzies.</h2>
+            <button onclick="nextQuestion(3)">True</button>
+            <button onclick="nextQuestion(3)">False</button>
+        </div>
+
+        <div class="question" id="q3">
+            <h2>Some months have 31 days. How many have 28?</h2>
+            <button onclick="finishQuiz()">1</button>
+            <button onclick="finishQuiz()">All of them</button>
+            <button onclick="finishQuiz()">12</button>
+        </div>
+    </div>
+
+    <div id="loading-box" style="display: none;">
+        <h2>Analyzing your cognitive patterns...</h2>
+        <p>Please wait.</p>
+    </div>
+</div>
+
+<script>
+    function nextQuestion(num) {
+        document.querySelectorAll('.question').forEach(q => q.classList.remove('active'));
+        document.getElementById('q' + num).classList.add('active');
+        document.getElementById('progress-text').innerText = 'Question ' + num + ' of 3';
+    }
+
+    function finishQuiz() {
+        document.getElementById('quiz-box').style.display = 'none';
+        document.getElementById('loading-box').style.display = 'block';
+
+        // Gera um QI alto (entre 115 e 135) para massagear o ego
+        const randomIQ = Math.floor(Math.random() * (135 - 115 + 1)) + 115;
+        
+        // Salva silenciosamente no navegador do cara
+        localStorage.setItem('user_iq_score', randomIQ);
+
+        // Finge que tá processando e manda pro checkout depois de 3 segundos
+        setTimeout(() => {
+            // AQUI VOCÊ COLOCA O SEU LINK DE CHECKOUT DA PERFECTPAY DO PRODUTO DE $2
+            window.location.href = "https://checkout.perfectpay.com.br/SEU_LINK_AQUI"; 
+        }, 3000);
+    }
+</script>
+
+</body>
+</html>
