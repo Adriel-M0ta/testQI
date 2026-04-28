@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wait! Special Offer — IQPrecision</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root { 
+    --dark-navy: #0B1628; 
+    --navy: #132040;
+    --blue-glow: #3B82F6; 
+    --gold: #F0A500; 
+    --white: #FFFFFF; 
+    --light-gray: #E8ECF4;
+  }
+  
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body { 
+    font-family: 'DM Sans', sans-serif; 
+    background: var(--dark-navy); 
+    color: var(--white); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  
+  .upsell-card { 
+    background: linear-gradient(135deg, #132040, #0B1628);
+    border: 2px solid var(--gold);
+    border-radius: 24px;
+    max-width: 500px; 
+    width: 100%;
+    padding: 32px 24px; 
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(240, 165, 0, 0.15);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .warning-bar {
+    background: #DC2626;
+    color: white;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 6px 0;
+    position: absolute;
+    top: 0; left: 0; right: 0;
+  }
+  
+  h1 { 
+    font-family: 'Playfair Display', serif; 
+    font-size: 28px; 
+    font-weight: 900; 
+    line-height: 1.2; 
+    margin: 24px 0 16px; 
+  }
+  h1 span { color: var(--gold); }
+  
+  p.subtitle {
+    font-size: 14px;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+
+  /* Box da Imagem do Livro */
+  .book-mockup {
+    width: 200px;
+    height: 260px;
+    margin: 0 auto 24px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed rgba(240, 165, 0, 0.5);
+    /* Aqui você vai trocar pelo link da imagem gerada depois */
+    /* background-image: url('LINK_DA_SUA_IMAGEM.png'); */
+    background-size: cover;
+    background-position: center;
+  }
+
+  .book-mockup span {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .btn-upsell {
+    display: block; 
+    width: 100%; 
+    padding: 18px;
+    background: var(--gold); 
+    color: var(--dark-navy);
+    font-size: 16px; 
+    font-weight: 800; 
+    border-radius: 12px;
+    text-decoration: none; 
+    text-transform: uppercase;
+    box-shadow: 0 4px 15px rgba(240, 165, 0, 0.3);
+    transition: transform 0.2s, background 0.2s; 
+    margin-bottom: 16px;
+    animation: pulse 2s infinite;
+  }
+  .btn-upsell:hover { transform: translateY(-2px); background: #d69400; }
+  
+  .btn-decline {
+    display: inline-block; 
+    color: rgba(255,255,255,0.4); 
+    font-size: 12px; 
+    text-decoration: underline; 
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .btn-decline:hover { color: white; }
+
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+  }
+</style>
+</head>
+<body>
+
+<div class="upsell-card">
+  <div class="warning-bar">Wait! Your Order Is Not Complete</div>
+  
+  <h1>You have the hardware. Now install the <span>software.</span></h1>
+  
+  <p class="subtitle">Highly intelligent people often earn less than average performers because of "Analysis Paralysis". Claim the protocol to turn your pattern recognition into profit.</p>
+  
+  <div class="book-mockup">
+    <span>[ Book Image Here ]</span>
+  </div>
+
+  <a href="COLE_O_LINK_DO_PLANO_DE_9_DOLARES_AQUI" class="btn-upsell">Yes, Add The Playbook ($9.99)</a>
+  
+  <a href="resultado.html" class="btn-decline">No thanks, I will figure it out myself. Take me to my results.</a>
+</div>
+
+</body>
+</html>
