@@ -7,6 +7,23 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', 'SEU_ID_DO_PIXEL_AQUI'); // COLOQUE SEU ID AQUI DEPOIS
+fbq('track', 'PageView');
+fbq('track', 'Purchase', {value: 2.00, currency: 'USD'}); // Avisa o Meta que vendeu!
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=SEU_ID_DO_PIXEL_AQUI&ev=PageView&noscript=1"
+/></noscript>
 <style>
   :root {
     --white: #FFFFFF;
@@ -30,6 +47,11 @@
     color: var(--dark-navy);
     min-height: 100vh;
     overflow-x: hidden;
+  }
+
+  /* CLASSE MÁGICA PARA ESCONDER OS BUMPS NÃO COMPRADOS */
+  .locked-section {
+    display: none !important;
   }
 
   .top-bar {
@@ -308,6 +330,34 @@
     transition: width 1.2s ease;
   }
 
+  /* CERTIFICATE STYLES (NOVO) */
+  .cert-container {
+    background: linear-gradient(135deg, #0B1628, #1A3A6B);
+    border: 4px solid #F0A500;
+    border-radius: 12px;
+    padding: 36px 24px;
+    text-align: center;
+    color: white;
+    margin-bottom: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  }
+
+  .btn-print {
+    width: 100%;
+    padding: 16px;
+    background: var(--off-white);
+    color: var(--dark-navy);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    border: 1px solid var(--light-gray);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.2s;
+    margin-bottom: 36px;
+  }
+  .btn-print:hover { background: #E2E8F0; }
+
   /* Comparison */
   .compare-card {
     background: var(--dark-navy);
@@ -388,19 +438,13 @@
     cursor: pointer;
     border: none;
     transition: transform 0.18s;
+    color: white;
   }
 
   .share-btn:hover { transform: translateY(-2px); }
 
-  .share-twitter {
-    background: var(--dark-navy);
-    color: var(--white);
-  }
-
-  .share-copy {
-    background: var(--light-gray);
-    color: var(--dark-navy);
-  }
+  .share-twitter { background: var(--dark-navy); }
+  .share-linkedin { background: #0077b5; }
 
   /* Footer */
   .result-footer {
@@ -424,7 +468,6 @@
   <div class="badge">✓ Unlocked</div>
 </div>
 
-<!-- HERO -->
 <div class="hero">
   <div class="unlocked-tag">🔓 Results Unlocked</div>
   <h1 class="hero-title">Your Full IQ Profile</h1>
@@ -433,15 +476,15 @@
   <div class="score-card">
     <div class="score-label">Your IQ Score</div>
     <span class="score-num" id="scoreDisplay">127</span>
-    <div class="score-category">Superior Intelligence</div>
+    <div class="score-category" id="scoreCategoryText">Superior Intelligence</div>
     <div class="score-divider"></div>
     <div class="score-stats">
       <div class="stat-box">
-        <span class="stat-val">Top 12%</span>
+        <span class="stat-val" id="percentileDisplay">Top 12%</span>
         <span class="stat-lbl">Nationally</span>
       </div>
       <div class="stat-box">
-        <span class="stat-val">Above</span>
+        <span class="stat-val" id="mensaStatus">Above</span>
         <span class="stat-lbl">Mensa threshold?</span>
       </div>
     </div>
@@ -454,147 +497,185 @@
     </div>
     <div class="pct-labels">
       <span>Average (100)</span>
-      <span>You (127)</span>
+      <span id="chartYou">You (127)</span>
       <span>Genius (145+)</span>
     </div>
   </div>
 </div>
 
-<!-- BODY -->
 <div class="result-body">
 
-  <h2 class="section-head">Cognitive Breakdown</h2>
-  <div class="breakdown-grid">
-    <div class="breakdown-item">
-      <div class="bd-top">
-        <span class="bd-name">Pattern Recognition</span>
-        <span class="bd-score">94/100</span>
+  <div id="cognitiveBreakdown" class="locked-section">
+    <h2 class="section-head">Cognitive Breakdown</h2>
+    <div class="breakdown-grid">
+      <div class="breakdown-item">
+        <div class="bd-top">
+          <span class="bd-name">Pattern Recognition</span>
+          <span class="bd-score">94/100</span>
+        </div>
+        <div class="bd-bar-bg"><div class="bd-bar-fill" data-width="94"></div></div>
       </div>
-      <div class="bd-bar-bg"><div class="bd-bar-fill" data-width="94"></div></div>
-    </div>
-    <div class="breakdown-item">
-      <div class="bd-top">
-        <span class="bd-name">Logical Reasoning</span>
-        <span class="bd-score">88/100</span>
+      <div class="breakdown-item">
+        <div class="bd-top">
+          <span class="bd-name">Logical Reasoning</span>
+          <span class="bd-score">88/100</span>
+        </div>
+        <div class="bd-bar-bg"><div class="bd-bar-fill" data-width="88"></div></div>
       </div>
-      <div class="bd-bar-bg"><div class="bd-bar-fill" data-width="88"></div></div>
-    </div>
-    <div class="breakdown-item">
-      <div class="bd-top">
-        <span class="bd-name">Working Memory</span>
-        <span class="bd-score">79/100</span>
+      <div class="breakdown-item">
+        <div class="bd-top">
+          <span class="bd-name">Working Memory</span>
+          <span class="bd-score">79/100</span>
+        </div>
+        <div class="bd-bar-bg"><div class="bd-bar-fill" data-width="79"></div></div>
       </div>
-      <div class="bd-bar-bg"><div class="bd-bar-fill" data-width="79"></div></div>
-    </div>
-    <div class="breakdown-item">
-      <div class="bd-top">
-        <span class="bd-name">Fluid Intelligence</span>
-        <span class="bd-score">91/100</span>
+      <div class="breakdown-item">
+        <div class="bd-top">
+          <span class="bd-name">Fluid Intelligence</span>
+          <span class="bd-score">91/100</span>
+        </div>
+        <div class="bd-bar-bg"><div class="bd-bar-fill" data-width="91"></div></div>
       </div>
-      <div class="bd-bar-bg"><div class="bd-bar-fill" data-width="91"></div></div>
-    </div>
-    <div class="breakdown-item">
-      <div class="bd-top">
-        <span class="bd-name">Verbal Reasoning</span>
-        <span class="bd-score">83/100</span>
+      <div class="breakdown-item">
+        <div class="bd-top">
+          <span class="bd-name">Verbal Reasoning</span>
+          <span class="bd-score">83/100</span>
+        </div>
+        <div class="bd-bar-bg"><div class="bd-bar-fill" data-width="83"></div></div>
       </div>
-      <div class="bd-bar-bg"><div class="bd-bar-fill" data-width="83"></div></div>
     </div>
+  </div>
+
+  <div id="certificateSection" class="locked-section">
+    <h2 class="section-head">Your Official Certificate</h2>
+    <div class="cert-container">
+      <h3 class="cert-title">Certificate of Intelligence</h3>
+      <p class="cert-text">This certifies that the user has completed the cognitive assessment and achieved an official score of:</p>
+      <div class="cert-score" id="certScoreDisplay">--</div>
+      <p class="cert-seal">Verified by IQPrecision Algorithm</p>
+    </div>
+    <button class="btn-print" onclick="window.print()">Download as PDF</button>
   </div>
 
   <div class="compare-card">
     <div class="cmp-title">How You Compare</div>
     <div class="cmp-row">
       <span class="cmp-label">vs. US Average (100)</span>
-      <span class="cmp-val above">+27 points ↑</span>
+      <span class="cmp-val above" id="cmpAvg">+27 points ↑</span>
     </div>
     <div class="cmp-row">
       <span class="cmp-label">vs. College graduates (115)</span>
-      <span class="cmp-val above">+12 points ↑</span>
+      <span class="cmp-val above" id="cmpCollege">+12 points ↑</span>
     </div>
     <div class="cmp-row">
       <span class="cmp-label">vs. Mensa threshold (130)</span>
-      <span class="cmp-val same">3 points away</span>
+      <span class="cmp-val same" id="cmpMensa">3 points away</span>
     </div>
     <div class="cmp-row" style="margin-bottom:0">
       <span class="cmp-label">vs. Genius level (145+)</span>
-      <span class="cmp-val below">18 points below</span>
+      <span class="cmp-val below" id="cmpGenius">18 points below</span>
     </div>
   </div>
 
   <div class="share-section">
     <div class="share-title">Proud of your score?</div>
-    <div class="share-sub">Challenge your friends to beat it.</div>
+    <div class="share-sub">Challenge your network to beat it.</div>
     <div class="share-btns">
       <button class="share-btn share-twitter" onclick="shareTwitter()">Share on X</button>
-      <button class="share-btn share-copy" onclick="copyLink()">Copy Link</button>
+      <button class="share-btn share-linkedin" onclick="shareLinkedIn()">LinkedIn</button>
     </div>
   </div>
 
 </div>
 
 <div class="result-footer">
-  © 2025 IQPrecision · Results are for entertainment and self-discovery purposes.
+  © 2026 IQPrecision · Results are for entertainment and self-discovery purposes.
 </div>
 
 <script>
+  // Lógica de Leitura dos Order Bumps via URL (PerfectPay)
+  const urlParams = new URLSearchParams(window.location.search);
+  const hasBump1 = urlParams.get('bump1') === 'true'; // Comprou o Relatório Breakdown
+  const hasBump2 = urlParams.get('bump2') === 'true'; // Comprou o Certificado
+
+  // Destranca as seções se o cara pagou
+  if (hasBump1) {
+    document.getElementById('cognitiveBreakdown').classList.remove('locked-section');
+  }
+  if (hasBump2) {
+    document.getElementById('certificateSection').classList.remove('locked-section');
+  }
+
   // Lógica Dinâmica do Score
   window.addEventListener('load', () => {
     // Puxa o QI do cache (ou usa 127 de backup)
     const finalScore = parseInt(localStorage.getItem('iq_score')) || 127;
-    document.getElementById('scoreDisplay').innerText = finalScore;
     
-    // Matemática Dinâmica de Percentil 
+    // Injeta o Score na tela e no certificado
+    document.getElementById('scoreDisplay').innerText = finalScore;
+    document.getElementById('certScoreDisplay').innerText = finalScore;
+    document.getElementById('chartYou').innerText = `You (${finalScore})`;
+    
+    // Matemática Dinâmica
     let percentile = "Top 12%";
     let fillWidth = "82%";
-    if (finalScore >= 130) { percentile = "Top 2%"; fillWidth = "95%"; }
-    else if (finalScore >= 125) { percentile = "Top 5%"; fillWidth = "88%"; }
-    else if (finalScore >= 120) { percentile = "Top 9%"; fillWidth = "85%"; }
-    else { percentile = "Top 15%"; fillWidth = "78%"; }
-    
-    // Atualiza a tela
-    document.querySelector('.stat-val').innerText = percentile; 
-    document.querySelectorAll('.pct-labels span')[1].innerText = `You (${finalScore})`;
+    let category = "Superior Intelligence";
+    let isMensa = "Below";
 
-    // Atualiza as comparações com a média
-    const diffAvg = finalScore - 100;
-    const diffMensa = 130 - finalScore;
-    document.querySelectorAll('.cmp-val.above')[0].innerText = `+${diffAvg} points ↑`;
-    
-    // Checa se passou da Mensa (130)
-    if(diffMensa <= 0) {
-        document.querySelector('.cmp-val.same').innerText = `Qualified (+${Math.abs(diffMensa)})`;
-        document.querySelector('.cmp-val.same').style.color = "#10B981"; // Verde sucesso
-    } else {
-        document.querySelector('.cmp-val.same').innerText = `${diffMensa} points away`;
+    if (finalScore >= 130) { 
+      percentile = "Top 2%"; fillWidth = "95%"; category = "Gifted"; isMensa = "Qualified";
+    } else if (finalScore >= 125) { 
+      percentile = "Top 5%"; fillWidth = "88%"; category = "Superior Intelligence"; 
+    } else if (finalScore >= 120) { 
+      percentile = "Top 9%"; fillWidth = "85%"; category = "High Average"; 
+    } else { 
+      percentile = "Top 15%"; fillWidth = "78%"; category = "Above Average"; 
     }
+    
+    // Atualiza Textos
+    document.getElementById('percentileDisplay').innerText = percentile; 
+    document.getElementById('scoreCategoryText').innerText = category;
+    document.getElementById('mensaStatus').innerText = isMensa;
+    if(isMensa === "Qualified") document.getElementById('mensaStatus').style.color = "#10B981";
+
+    // Atualiza Comparações
+    document.getElementById('cmpAvg').innerText = `+${finalScore - 100} points ↑`;
+    document.getElementById('cmpCollege').innerText = `+${finalScore - 115} points ↑`;
+    
+    const diffMensa = 130 - finalScore;
+    if(diffMensa <= 0) {
+        document.getElementById('cmpMensa').innerText = `Qualified (+${Math.abs(diffMensa)})`;
+        document.getElementById('cmpMensa').style.color = "#10B981";
+    } else {
+        document.getElementById('cmpMensa').innerText = `${diffMensa} points away`;
+    }
+    
+    document.getElementById('cmpGenius').innerText = `${145 - finalScore} points below`;
 
     // Anima a barra principal
-    setTimeout(() => {
-      document.getElementById('pctFill').style.width = fillWidth;
-    }, 300);
+    setTimeout(() => { document.getElementById('pctFill').style.width = fillWidth; }, 300);
 
-    // Anima as barras menores
-    document.querySelectorAll('.bd-bar-fill').forEach(bar => {
-      const w = bar.getAttribute('data-width');
-      setTimeout(() => { bar.style.width = w + '%'; }, 600);
-    });
+    // Anima as barras menores (Breakdown)
+    if (hasBump1) {
+      document.querySelectorAll('.bd-bar-fill').forEach(bar => {
+        const w = bar.getAttribute('data-width');
+        setTimeout(() => { bar.style.width = w + '%'; }, 600);
+      });
+    }
   });
 
+  // Botões de Compartilhamento
   function shareTwitter() {
-    const text = encodeURIComponent('I just scored 127 on the IQPrecision test — that places me in the top 12% nationally. Can you beat it?');
-    const url = encodeURIComponent(window.location.href);
+    const score = parseInt(localStorage.getItem('iq_score')) || 127;
+    const text = encodeURIComponent(`I just scored ${score} on the IQPrecision test, placing me in the top tier nationally. Can you beat my score?`);
+    const url = encodeURIComponent('https://official-iq-test.com'); // Mude pro seu domínio real
     window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
   }
 
-  function copyLink() {
-    navigator.clipboard.writeText(window.location.href).then(() => {
-      const btn = document.querySelector('.share-copy');
-      btn.textContent = '✓ Copied!';
-      setTimeout(() => { btn.textContent = 'Copy Link'; }, 2000);
-    });
+  function shareLinkedIn() {
+    const url = encodeURIComponent('https://official-iq-test.com'); // Mude pro seu domínio real
+    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank');
   }
 </script>
 </body>
 </html>
-
