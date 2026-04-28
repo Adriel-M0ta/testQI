@@ -1,80 +1,569 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your IQ Results</title>
-    <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f4; text-align: center; margin: 0; padding: 20px; }
-        .container { max-width: 600px; background: white; padding: 30px; margin: 0 auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .score-box { background-color: #28a745; color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
-        .score { font-size: 60px; font-weight: bold; margin: 10px 0; }
-        
-        /* O efeito de borrado */
-        .blurred-section { 
-            filter: blur(6px); 
-            pointer-events: none; 
-            user-select: none;
-            opacity: 0.6;
-        }
-        
-        .upsell-box {
-            border: 2px dashed #d32f2f;
-            padding: 20px;
-            margin-top: 20px;
-            background-color: #fff9f9;
-        }
-        .btn { background-color: #d32f2f; color: white; border: none; padding: 15px 20px; font-size: 18px; cursor: pointer; border-radius: 5px; width: 100%; text-decoration: none; display: inline-block; font-weight: bold; box-sizing: border-box;}
-        .btn:hover { background-color: #b71c1c; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your IQ Results — IQPrecision</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --white: #FFFFFF;
+    --off-white: #F4F6FA;
+    --light-gray: #E8ECF4;
+    --mid-gray: #9AA5BC;
+    --dark-navy: #0B1628;
+    --navy: #132040;
+    --blue-accent: #1A3A6B;
+    --blue-bright: #2563EB;
+    --blue-glow: #3B82F6;
+    --gold: #F0A500;
+    --success: #10B981;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--dark-navy);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .top-bar {
+    background: var(--dark-navy);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--white);
+  }
+
+  .logo span { color: var(--blue-glow); }
+
+  .badge {
+    background: var(--success);
+    color: var(--white);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+  }
+
+  /* Hero */
+  .hero {
+    background: var(--dark-navy);
+    padding: 40px 24px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; left: 50%;
+    transform: translateX(-50%);
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .unlocked-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(16,185,129,0.15);
+    border: 1px solid rgba(16,185,129,0.35);
+    color: #6EE7B7;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 7px 16px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(26px, 7vw, 40px);
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.15;
+    margin-bottom: 8px;
+    animation: fadeUp 0.5s 0.1s ease both;
+  }
+
+  .hero-sub {
+    font-size: 15px;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 36px;
+    animation: fadeUp 0.5s 0.2s ease both;
+  }
+
+  /* IQ Score Card */
+  .score-card {
+    background: var(--white);
+    border-radius: 24px;
+    padding: 32px 24px;
+    max-width: 340px;
+    margin: 0 auto 28px;
+    position: relative;
+    animation: fadeUp 0.5s 0.3s ease both;
+    overflow: hidden;
+  }
+
+  .score-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--blue-bright), var(--blue-glow), #93C5FD);
+  }
+
+  .score-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--mid-gray);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+
+  .score-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 86px;
+    font-weight: 900;
+    color: var(--dark-navy);
+    line-height: 1;
+    text-align: center;
+    letter-spacing: -4px;
+    animation: countUp 1.5s 0.8s ease both;
+    display: block;
+  }
+
+  @keyframes countUp {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .score-category {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--blue-bright);
+    margin: 6px 0 20px;
+  }
+
+  .score-divider {
+    height: 1px;
+    background: var(--light-gray);
+    margin: 0 -4px 20px;
+  }
+
+  .score-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .stat-box {
+    text-align: center;
+    padding: 14px;
+    background: var(--off-white);
+    border-radius: 12px;
+  }
+
+  .stat-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--dark-navy);
+    display: block;
+  }
+
+  .stat-lbl {
+    font-size: 11px;
+    color: var(--mid-gray);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+
+  /* Percentile bar */
+  .pct-section {
+    max-width: 340px;
+    margin: 0 auto;
+    animation: fadeUp 0.5s 0.4s ease both;
+  }
+
+  .pct-title {
+    color: rgba(255,255,255,0.45);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+
+  .pct-bar-bg {
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    height: 8px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+
+  .pct-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #60A5FA, var(--blue-glow));
+    border-radius: 10px;
+    width: 0%;
+    transition: width 1.5s 1s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .pct-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    font-weight: 600;
+  }
+
+  /* Body */
+  .result-body {
+    padding: 36px 24px 60px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .section-head {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--dark-navy);
+    margin-bottom: 16px;
+  }
+
+  /* Cognitive breakdown */
+  .breakdown-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 36px;
+    animation: fadeUp 0.5s 0.5s ease both;
+  }
+
+  .breakdown-item {
+    background: var(--off-white);
+    border-radius: 14px;
+    padding: 16px 18px;
+    border: 1px solid var(--light-gray);
+  }
+
+  .bd-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .bd-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--dark-navy);
+  }
+
+  .bd-score {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--blue-bright);
+  }
+
+  .bd-bar-bg {
+    background: var(--light-gray);
+    border-radius: 10px;
+    height: 6px;
+    overflow: hidden;
+  }
+
+  .bd-bar-fill {
+    height: 100%;
+    border-radius: 10px;
+    background: linear-gradient(90deg, var(--blue-glow), var(--blue-bright));
+    width: 0%;
+    transition: width 1.2s ease;
+  }
+
+  /* Comparison */
+  .compare-card {
+    background: var(--dark-navy);
+    border-radius: 20px;
+    padding: 28px 24px;
+    margin-bottom: 32px;
+    animation: fadeUp 0.5s 0.6s ease both;
+  }
+
+  .cmp-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 20px;
+  }
+
+  .cmp-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .cmp-label {
+    font-size: 13px;
+    color: rgba(255,255,255,0.55);
+    font-weight: 500;
+  }
+
+  .cmp-val {
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .cmp-val.above { color: #6EE7B7; }
+  .cmp-val.same { color: #FCD34D; }
+  .cmp-val.below { color: #FCA5A5; }
+
+  /* Share */
+  .share-section {
+    background: var(--off-white);
+    border-radius: 20px;
+    padding: 28px 24px;
+    text-align: center;
+    border: 1px solid var(--light-gray);
+    animation: fadeUp 0.5s 0.7s ease both;
+  }
+
+  .share-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--dark-navy);
+    margin-bottom: 6px;
+  }
+
+  .share-sub {
+    font-size: 14px;
+    color: var(--mid-gray);
+    margin-bottom: 20px;
+  }
+
+  .share-btns {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+  }
+
+  .share-btn {
+    flex: 1;
+    max-width: 160px;
+    padding: 14px;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    transition: transform 0.18s;
+  }
+
+  .share-btn:hover { transform: translateY(-2px); }
+
+  .share-twitter {
+    background: var(--dark-navy);
+    color: var(--white);
+  }
+
+  .share-copy {
+    background: var(--light-gray);
+    color: var(--dark-navy);
+  }
+
+  /* Footer */
+  .result-footer {
+    text-align: center;
+    padding: 24px;
+    border-top: 1px solid var(--light-gray);
+    font-size: 12px;
+    color: var(--mid-gray);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
 </head>
 <body>
 
-<div class="container">
-    <div class="score-box">
-        <h2>Your Official IQ Score</h2>
-        <div class="score" id="display-score">--</div>
-        <p>Congratulations! You are above the American average!</p>
-    </div>
+<div class="top-bar">
+  <div class="logo">IQ<span>Precision</span></div>
+  <div class="badge">✓ Unlocked</div>
+</div>
 
-    <h3>Your Detailed Cognitive Report</h3>
-    
-    <div id="premium-content" class="blurred-section">
-        <p><strong>Logical Reasoning:</strong> Top 5%</p>
-        <p><strong>Spatial Memory:</strong> Top 8%</p>
-        <p><strong>Pattern Recognition:</strong> Genius Level</p>
-        <p><em>Career paths for your brain type: Software Engineering, Data Science, High-Stakes Finance.</em></p>
-        <button class="btn" style="background-color: #28a745; margin-top: 10px;">Download PDF Certificate</button>
-    </div>
+<!-- HERO -->
+<div class="hero">
+  <div class="unlocked-tag">🔓 Results Unlocked</div>
+  <h1 class="hero-title">Your Full IQ Profile</h1>
+  <p class="hero-sub">Cognitive assessment complete — here's where you truly stand.</p>
 
-    <div class="upsell-box" id="upsell-call">
-        <h3 style="color: #d32f2f;">Unlock Your Full Report!</h3>
-        <p>Your results are blurred. Upgrade now to see your detailed cognitive strengths and download your High-Resolution Certificate.</p>
-        <a href="https://checkout.perfectpay.com.br/LINK_DO_UPSELL" class="btn">Unlock Full Report for $10</a>
+  <div class="score-card">
+    <div class="score-label">Your IQ Score</div>
+    <span class="score-num" id="scoreDisplay">127</span>
+    <div class="score-category">Superior Intelligence</div>
+    <div class="score-divider"></div>
+    <div class="score-stats">
+      <div class="stat-box">
+        <span class="stat-val">Top 12%</span>
+        <span class="stat-lbl">Nationally</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-val">Above</span>
+        <span class="stat-lbl">Mensa threshold?</span>
+      </div>
     </div>
+  </div>
+
+  <div class="pct-section">
+    <div class="pct-title">Your Percentile vs. US Population</div>
+    <div class="pct-bar-bg">
+      <div class="pct-bar-fill" id="pctFill"></div>
+    </div>
+    <div class="pct-labels">
+      <span>Average (100)</span>
+      <span>You (127)</span>
+      <span>Genius (145+)</span>
+    </div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="result-body">
+
+  <h2 class="section-head">Cognitive Breakdown</h2>
+  <div class="breakdown-grid">
+    <div class="breakdown-item">
+      <div class="bd-top">
+        <span class="bd-name">Pattern Recognition</span>
+        <span class="bd-score">94/100</span>
+      </div>
+      <div class="bd-bar-bg"><div class="bd-bar-fill" data-width="94"></div></div>
+    </div>
+    <div class="breakdown-item">
+      <div class="bd-top">
+        <span class="bd-name">Logical Reasoning</span>
+        <span class="bd-score">88/100</span>
+      </div>
+      <div class="bd-bar-bg"><div class="bd-bar-fill" data-width="88"></div></div>
+    </div>
+    <div class="breakdown-item">
+      <div class="bd-top">
+        <span class="bd-name">Working Memory</span>
+        <span class="bd-score">79/100</span>
+      </div>
+      <div class="bd-bar-bg"><div class="bd-bar-fill" data-width="79"></div></div>
+    </div>
+    <div class="breakdown-item">
+      <div class="bd-top">
+        <span class="bd-name">Fluid Intelligence</span>
+        <span class="bd-score">91/100</span>
+      </div>
+      <div class="bd-bar-bg"><div class="bd-bar-fill" data-width="91"></div></div>
+    </div>
+    <div class="breakdown-item">
+      <div class="bd-top">
+        <span class="bd-name">Verbal Reasoning</span>
+        <span class="bd-score">83/100</span>
+      </div>
+      <div class="bd-bar-bg"><div class="bd-bar-fill" data-width="83"></div></div>
+    </div>
+  </div>
+
+  <div class="compare-card">
+    <div class="cmp-title">How You Compare</div>
+    <div class="cmp-row">
+      <span class="cmp-label">vs. US Average (100)</span>
+      <span class="cmp-val above">+27 points ↑</span>
+    </div>
+    <div class="cmp-row">
+      <span class="cmp-label">vs. College graduates (115)</span>
+      <span class="cmp-val above">+12 points ↑</span>
+    </div>
+    <div class="cmp-row">
+      <span class="cmp-label">vs. Mensa threshold (130)</span>
+      <span class="cmp-val same">3 points away</span>
+    </div>
+    <div class="cmp-row" style="margin-bottom:0">
+      <span class="cmp-label">vs. Genius level (145+)</span>
+      <span class="cmp-val below">18 points below</span>
+    </div>
+  </div>
+
+  <div class="share-section">
+    <div class="share-title">Proud of your score?</div>
+    <div class="share-sub">Challenge your friends to beat it.</div>
+    <div class="share-btns">
+      <button class="share-btn share-twitter" onclick="shareTwitter()">Share on X</button>
+      <button class="share-btn share-copy" onclick="copyLink()">Copy Link</button>
+    </div>
+  </div>
 
 </div>
 
+<div class="result-footer">
+  © 2025 IQPrecision · Results are for entertainment and self-discovery purposes.
+</div>
+
 <script>
-    // Pega o QI salvo no navegador
-    const savedScore = localStorage.getItem('user_iq_score');
-    if (savedScore) {
-        document.getElementById('display-score').innerText = savedScore;
-    } else {
-        document.getElementById('display-score').innerText = "118"; // Backup caso dê erro no cache
-    }
+  // Animate percentile bar on load
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('pctFill').style.width = '82%';
+    }, 300);
 
-    // Verifica se a URL tem ?vip=true (ou seja, se a pessoa comprou o pacote completo)
-    const urlParams = new URLSearchParams(window.location.search);
-    const isVip = urlParams.get('vip');
+    // Animate breakdown bars
+    document.querySelectorAll('.bd-bar-fill').forEach(bar => {
+      const w = bar.getAttribute('data-width');
+      setTimeout(() => { bar.style.width = w + '%'; }, 600);
+    });
+  });
 
-    if (isVip === 'true') {
-        // Tira o borrado e libera o acesso
-        document.getElementById('premium-content').classList.remove('blurred-section');
-        // Esconde o box de cobrança
-        document.getElementById('upsell-call').style.display = 'none';
-    }
+  function shareTwitter() {
+    const text = encodeURIComponent('I just scored 127 on the IQPrecision test — that places me in the top 12% nationally. Can you beat it?');
+    const url = encodeURIComponent(window.location.href);
+    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+  }
+
+  function copyLink() {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      const btn = document.querySelector('.share-copy');
+      btn.textContent = '✓ Copied!';
+      setTimeout(() => { btn.textContent = 'Copy Link'; }, 2000);
+    });
+  }
 </script>
-
 </body>
 </html>
