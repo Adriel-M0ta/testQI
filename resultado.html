@@ -493,6 +493,41 @@ src="https://www.facebook.com/tr?id=SEU_ID_DO_PIXEL_AQUI&ev=PageView&noscript=1"
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
   }
+/* --- REGRAS DE IMPRESSÃO (O SEGREDO DO PDF PERFEITO) --- */
+  @media print {
+    /* Esconde absolutamente tudo que não for o certificado */
+    .top-bar, .hero, #cognitiveBreakdown, .cert-controls, .compare-card, .share-section, .result-footer {
+      display: none !important;
+    }
+    
+    /* Remove a palavra "Your Official Certificate" que fica em cima */
+    .section-head {
+      display: none !important;
+    }
+    
+    /* Limpa margens e fundos do site para focar só no diploma */
+    body, .result-body, .certificate-section {
+      margin: 0 !important;
+      padding: 0 !important;
+      background: white !important;
+      border: none !important;
+    }
+
+    /* FORÇA o navegador a renderizar as cores e os fundos escuros no PDF */
+    * {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    /* Ajusta o certificado para o tamanho do PDF */
+    .cert-visual {
+      box-shadow: none !important; /* Tira sombra pq PDF não precisa */
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 auto !important;
+      page-break-inside: avoid; /* Evita que o certificado corte no meio da folha */
+    }
+  }
 </style>
 </head>
 <body>
