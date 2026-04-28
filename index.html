@@ -3,78 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Official US IQ Test</title>
+    <title>Cognitive Assessment | Official</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f4; text-align: center; margin: 0; padding: 20px; }
-        .container { max-width: 600px; background: white; padding: 30px; margin: 0 auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        h1 { color: #d32f2f; }
-        .question { display: none; margin-bottom: 20px; }
-        .question.active { display: block; }
-        button { background-color: #28a745; color: white; border: none; padding: 15px 20px; font-size: 18px; cursor: pointer; border-radius: 5px; width: 100%; margin-top: 10px; font-weight: bold;}
-        button:hover { background-color: #218838; }
-        .progress { color: #666; margin-bottom: 20px; font-size: 14px;}
+        body { font-family: 'Inter', sans-serif; }
+        /* Esconde as seções que não estão ativas */
+        .hidden-screen { display: none; }
+        /* Animação suave de transição */
+        .fade-in { animation: fadeIn 0.4s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* Spinner de Loading */
+        .loader { border: 4px solid #1e293b; border-top: 4px solid #3b82f6; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 0 auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
-<body>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col antialiased">
 
-<div class="container">
-    <h1>The American IQ Challenge</h1>
-    <p>Find out if your IQ is higher than the average American (98).</p>
-    
-    <div id="quiz-box">
-        <div class="progress" id="progress-text">Question 1 of 3</div>
+    <div class="max-w-md w-full mx-auto bg-slate-800 min-h-screen shadow-2xl relative flex flex-col">
 
-        <div class="question active" id="q1">
-            <h2>Which number comes next in the sequence: 2, 4, 8, 16, ...?</h2>
-            <button onclick="nextQuestion(2)">24</button>
-            <button onclick="nextQuestion(2)">32</button>
-            <button onclick="nextQuestion(2)">64</button>
-        </div>
+        <header class="flex justify-between items-center p-4 border-b border-slate-700 bg-slate-900">
+            <div class="flex items-center gap-2">
+                <div class="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
+                <span class="text-xs font-semibold text-slate-300 tracking-widest uppercase">Live Assessment</span>
+            </div>
+            <div class="text-xs text-slate-400">
+                <span class="font-bold text-white">1,284,392</span> tested
+            </div>
+        </header>
 
-        <div class="question" id="q2">
-            <h2>If all Bloops are Razzies and all Razzies are Lazzies, then all Bloops are Lazzies.</h2>
-            <button onclick="nextQuestion(3)">True</button>
-            <button onclick="nextQuestion(3)">False</button>
-        </div>
+        <main id="screen-hook" class="flex-1 flex flex-col justify-center p-6 fade-in">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-extrabold text-white mb-6 leading-tight">
+                    The average IQ in America is <span class="text-blue-500 underline decoration-blue-500/30">98</span>.
+                </h1>
+                <p class="text-lg text-slate-300 mb-2">But some people quietly score far above it...</p>
+                <p class="text-xl font-semibold text-white">The question is: are you one of them?</p>
+            </div>
+            
+            <div class="bg-slate-700/50 p-4 rounded-xl border border-slate-600 mb-8 text-sm text-slate-300 text-center">
+                This short cognitive test is based on patterns used in professional IQ assessments. Most people fail.
+            </div>
 
-        <div class="question" id="q3">
-            <h2>Some months have 31 days. How many have 28?</h2>
-            <button onclick="finishQuiz()">1</button>
-            <button onclick="finishQuiz()">All of them</button>
-            <button onclick="finishQuiz()">12</button>
-        </div>
+            <button onclick="startTest()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl shadow-lg shadow-blue-500/30 transition-all transform active:scale-95 text-lg">
+                Start Challenge Now
+            </button>
+        </main>
+
+        <main id="screen-quiz" class="flex-1 flex flex-col p-6 hidden-screen fade-in">
+            <div class="mb-6">
+                <div class="flex justify-between text-xs text-slate-400 mb-2 font-semibold">
+                    <span id="progress-text">Question 1 of 3</span>
+                    <span class="text-blue-400" id="tension-text">Only 23% get this right</span>
+                </div>
+                <div class="w-full bg-slate-700 rounded-full h-2">
+                    <div id="progress-bar" class="bg-blue-500 h-2 rounded-full transition-all duration-500" style="width: 33%"></div>
+                </div>
+            </div>
+
+            <div id="q1" class="question-block">
+                <h2 class="text-xl font-bold text-white mb-8 text-center leading-relaxed">Which number comes next in the sequence: 2, 4, 8, 16, ...?</h2>
+                <div class="space-y-3">
+                    <button onclick="nextQuestion(2, 66, 'This question filters out average minds')" class="w-full bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white font-semibold py-4 rounded-xl transition-all active:bg-blue-600">24</button>
+                    <button onclick="nextQuestion(2, 66, 'This question filters out average minds')" class="w-full bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white font-semibold py-4 rounded-xl transition-all active:bg-blue-600">32</button>
+                    <button onclick="nextQuestion(2, 66, 'This question filters out average minds')" class="w-full bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white font-semibold py-4 rounded-xl transition-all active:bg-blue-600">64</button>
+                </div>
+            </div>
+
+            <div id="q2" class="question-block hidden-screen">
+                <h2 class="text-xl font-bold text-white mb-8 text-center leading-relaxed">If all Bloops are Razzies and all Razzies are Lazzies, then all Bloops are Lazzies.</h2>
+                <div class="space-y-3">
+                    <button onclick="nextQuestion(3, 100, 'Final calculation stage...')" class="w-full bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white font-semibold py-4 rounded-xl transition-all active:bg-blue-600">True</button>
+                    <button onclick="nextQuestion(3, 100, 'Final calculation stage...')" class="w-full bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white font-semibold py-4 rounded-xl transition-all active:bg-blue-600">False</button>
+                </div>
+            </div>
+
+            <div id="q3" class="question-block hidden-screen">
+                <h2 class="text-xl font-bold text-white mb-8 text-center leading-relaxed">Some months have 31 days. How many have 28?</h2>
+                <div class="space-y-3">
+                    <button onclick="finishTest()" class="w-full bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white font-semibold py-4 rounded-xl transition-all active:bg-blue-600">1</button>
+                    <button onclick="finishTest()" class="w-full bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white font-semibold py-4 rounded-xl transition-all active:bg-blue-600">All of them</button>
+                    <button onclick="finishTest()" class="w-full bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white font-semibold py-4 rounded-xl transition-all active:bg-blue-600">12</button>
+                </div>
+            </div>
+        </main>
+
+        <main id="screen-loading" class="flex-1 flex flex-col justify-center items-center p-6 hidden-screen fade-in">
+            <div class="loader mb-6"></div>
+            <h2 class="text-2xl font-bold text-white mb-2">Analyzing cognitive profile...</h2>
+            <p id="loading-text" class="text-slate-400 text-sm">Cross-referencing pattern recognition data.</p>
+        </main>
+
+        <main id="screen-paywall" class="flex-1 flex flex-col p-6 hidden-screen fade-in justify-center">
+            <div class="text-center mb-8">
+                <div class="inline-block bg-green-500/20 text-green-400 px-4 py-1 rounded-full text-sm font-bold mb-4 border border-green-500/30">
+                    Analysis Complete
+                </div>
+                <h2 class="text-3xl font-extrabold text-white mb-4">Your results are ready.</h2>
+                <p class="text-lg text-slate-300">Based on your answers, you scored <span class="text-white font-bold underline decoration-blue-500">ABOVE</span> the national average.</p>
+            </div>
+
+            <div class="bg-slate-900 border border-blue-500/50 rounded-2xl p-6 text-center mb-8 relative overflow-hidden shadow-lg shadow-blue-500/10">
+                <div class="absolute inset-0 bg-blue-500/5 backdrop-blur-sm"></div>
+                <h3 class="text-slate-400 text-sm font-semibold mb-2 relative z-10 uppercase tracking-wide">Your Exact IQ Score</h3>
+                <div class="text-6xl font-black text-white blur-[8px] select-none relative z-10">128</div>
+                <div class="absolute inset-0 flex items-center justify-center z-20">
+                    <span class="bg-slate-800 text-white text-xs font-bold px-3 py-1 rounded border border-slate-600">LOCKED</span>
+                </div>
+            </div>
+
+            <a href="https://checkout.perfectpay.com.br/SEU_LINK_AQUI" class="w-full block text-center bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl shadow-lg shadow-blue-500/30 transition-all transform active:scale-95 text-lg mb-4">
+                Unlock My Score ($2.00)
+            </a>
+            <p class="text-center text-xs text-slate-500">Secure encrypted checkout. Results available instantly.</p>
+        </main>
+
+        <footer class="p-4 text-center text-[10px] text-slate-600 border-t border-slate-800 mt-auto bg-slate-900">
+            This is not an official clinical IQ test. For entertainment and educational purposes only.
+        </footer>
     </div>
 
-    <div id="loading-box" style="display: none;">
-        <h2>Analyzing your cognitive patterns...</h2>
-        <p>Please wait.</p>
-    </div>
-</div>
+    <script>
+        function startTest() {
+            document.getElementById('screen-hook').classList.add('hidden-screen');
+            document.getElementById('screen-quiz').classList.remove('hidden-screen');
+        }
 
-<script>
-    function nextQuestion(num) {
-        document.querySelectorAll('.question').forEach(q => q.classList.remove('active'));
-        document.getElementById('q' + num).classList.add('active');
-        document.getElementById('progress-text').innerText = 'Question ' + num + ' of 3';
-    }
+        function nextQuestion(nextNum, progressPercent, tensionMsg) {
+            // Esconde todas as perguntas
+            document.querySelectorAll('.question-block').forEach(q => q.classList.add('hidden-screen'));
+            // Mostra a próxima
+            document.getElementById('q' + nextNum).classList.remove('hidden-screen');
+            // Atualiza UI
+            document.getElementById('progress-bar').style.width = progressPercent + '%';
+            document.getElementById('progress-text').innerText = 'Question ' + nextNum + ' of 3';
+            document.getElementById('tension-text').innerText = tensionMsg;
+        }
 
-    function finishQuiz() {
-        document.getElementById('quiz-box').style.display = 'none';
-        document.getElementById('loading-box').style.display = 'block';
+        function finishTest() {
+            // Salva um QI aleatório alto para o script da página de obrigado puxar depois
+            const randomIQ = Math.floor(Math.random() * (135 - 118 + 1)) + 118;
+            localStorage.setItem('user_iq_score', randomIQ);
 
-        // Gera um QI alto (entre 115 e 135) para massagear o ego
-        const randomIQ = Math.floor(Math.random() * (135 - 115 + 1)) + 115;
-        
-        // Salva silenciosamente no navegador do cara
-        localStorage.setItem('user_iq_score', randomIQ);
+            // Troca tela pro loading
+            document.getElementById('screen-quiz').classList.add('hidden-screen');
+            document.getElementById('screen-loading').classList.remove('hidden-screen');
 
-        // Finge que tá processando e manda pro checkout depois de 3 segundos
-        setTimeout(() => {
-            // AQUI VOCÊ COLOCA O SEU LINK DE CHECKOUT DA PERFECTPAY DO PRODUTO DE $2
-            window.location.href = "https://checkout.perfectpay.com.br/SEU_LINK_AQUI"; 
-        }, 3000);
-    }
-</script>
-
+            // Simula os passos da IA lendo os dados pra gerar ansiedade
+            const loadingText = document.getElementById('loading-text');
+            setTimeout(() => { loadingText.innerText = "Evaluating logical reasoning..."; }, 1500);
+            setTimeout(() => { loadingText.innerText = "Comparing with national database..."; }, 3000);
+            
+            // Depois de 4.5s, libera o paywall
+            setTimeout(() => {
+                document.getElementById('screen-loading').classList.add('hidden-screen');
+                document.getElementById('screen-paywall').classList.remove('hidden-screen');
+            }, 4500);
+        }
+    </script>
 </body>
 </html>
