@@ -499,21 +499,20 @@
     transform: translateY(-2px);
   }
 
-  .option-btn.correct {
-    background: rgba(16, 185, 129, 0.2);
-    border-color: var(--success);
-    color: #6EE7B7;
-  }
-
-  .option-btn.wrong {
-    background: rgba(239, 68, 68, 0.15);
-    border-color: #EF4444;
-    color: #FCA5A5;
+  .option-btn.selected {
+    background: rgba(59, 130, 246, 0.2);
+    border-color: var(--blue-glow);
+    transform: scale(0.98);
   }
 
   .option-btn.disabled {
     pointer-events: none;
-    opacity: 0.5;
+    opacity: 0.8;
+  }
+
+  @keyframes pulseBlur {
+    0%, 100% { filter: blur(14px); opacity: 0.8; }
+    50% { filter: blur(10px); opacity: 1; }
   }
 
   /* ══════════════════════════════════
@@ -717,6 +716,7 @@
     filter: blur(14px);
     user-select: none;
     letter-spacing: -2px;
+    animation: pulseBlur 2.5s infinite ease-in-out;
   }
 
   .iq-lock-overlay {
@@ -1101,7 +1101,7 @@
     <span class="r-logo">IQ<span>Precision</span></span>
     <div class="result-verdict">✓ Test Complete</div>
     <h2 class="result-headline">You Scored <em style="color:#60A5FA">ABOVE Average</em></h2>
-    <p class="result-sub">Your cognitive profile places you in the upper tier of the US population.</p>
+    <p class="result-sub">Your result is ready, but requires full processing to unlock.</p>
 
     <div class="iq-reveal-card">
       <div class="iq-label">Your IQ Score</div>
@@ -1138,11 +1138,11 @@
     </ul>
 
     <div class="urgency-banner">
-      <div class="urg-icon">⏳</div>
-      <div class="urg-text">
-        <strong>Limited-time access price.</strong> Your results expire in 24 hours without payment.
+        <div class="urg-icon">⏳</div>
+        <div class="urg-text">
+          <strong>Limited-time access price.</strong> Your result is reserved for: <strong id="countdownTimer" style="font-size: 16px; color: #B45309; margin-left: 4px;">09:59</strong>
+        </div>
       </div>
-    </div>
 
     <div class="price-cta-box">
       <div class="price-original">Regular price: $9.99</div>
@@ -1239,8 +1239,19 @@ const QUESTIONS = [
 ];
 
 let currentQ = 0;
-let score = 0;
 let answered = false;
+let quiz_started = false;
+let quiz_completed = false;
+let generatedIQ = 0;
+
+// Frases dinâmicas para massagear o ego
+const egoMessages = [
+  "You're performing above average so far.",
+  "Your pattern recognition is strong.",
+  "You're ahead of most test-takers.",
+  "Your cognitive speed is impressive.",
+  "Only 15% maintain this accuracy."
+];
 
 function showSection(id) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -1248,6 +1259,7 @@ function showSection(id) {
 }
 
 function startQuiz() {
+  quiz_started = true;
   showSection('quiz');
   renderQuestion();
 }
@@ -1261,7 +1273,14 @@ function renderQuestion() {
   document.getElementById('progressBar').style.width = pct + '%';
   document.getElementById('progressPct').textContent = pct + '% complete';
   document.getElementById('qCategory').textContent = q.category;
-  document.getElementById('tensionBanner').textContent = '"' + q.tension + '"';
+  
+  // Atualiza o banner de tensão com validação psicológica
+  if(currentQ > 0 && currentQ % 2 === 0) {
+    const randomMsg = egoMessages[Math.floor(Math.random() * egoMessages.length)];
+    document.getElementById('tensionBanner').textContent = '"' + randomMsg + '"';
+  } else {
+    document.getElementById('tensionBanner').textContent = '"' + q.tension + '"';
+  }
 
   const qText = document.getElementById('qText');
   qText.style.opacity = 0;
@@ -1283,27 +1302,41 @@ function selectOption(idx, btn) {
   if (answered) return;
   answered = true;
 
-  const q = QUESTIONS[currentQ];
+  btn.classList.add('selected'); // Sem feedback de certo/errado, só a seleção sutil
   const allBtns = document.querySelectorAll('.option-btn');
-
-  if (idx === q.correct) {
-    btn.classList.add('correct');
-    score++;
-  } else {
-    btn.classList.add('wrong');
-    allBtns[q.correct].classList.add('correct');
-  }
-
   allBtns.forEach(b => b.classList.add('disabled'));
 
+  // Micro-delay de drama (700ms) para sensação de sistema processando
   setTimeout(() => {
     currentQ++;
     if (currentQ < QUESTIONS.length) {
       renderQuestion();
     } else {
-      startLoading();
+      finishQuizLogic();
     }
-  }, 900);
+  }, 700);
+}
+
+function finishQuizLogic() {
+  quiz_completed = true;
+  
+  // Geração de QI com peso (Maior chance de ficar entre 120 e 130)
+  const rand = Math.random() * 100;
+  if (rand < 60) {
+    generatedIQ = Math.floor(Math.random() * (130 - 120 + 1)) + 120;
+  } else if (rand < 80) {
+    generatedIQ = Math.floor(Math.random() * (120 - 115 + 1)) + 115;
+  } else {
+    generatedIQ = Math.floor(Math.random() * (135 - 130 + 1)) + 130;
+  }
+  
+  // Salva no navegador do usuário
+  localStorage.setItem('iq_score', generatedIQ);
+  
+  // Injeta o número borrado no Paywall de forma dinâmica
+  document.querySelector('.iq-number-blur').textContent = generatedIQ;
+  
+  startLoading();
 }
 
 function startLoading() {
@@ -1340,7 +1373,22 @@ function startLoading() {
   setTimeout(() => {
     clearInterval(msgInterval);
     showSection('result');
+    startCountdown();
   }, 4500);
+}
+
+function startCountdown() {
+  let time = 599; // 9:59 em segundos
+  const timerEl = document.getElementById('countdownTimer');
+  const interval = setInterval(() => {
+    let m = Math.floor(time / 60);
+    let s = time % 60;
+    m = m < 10 ? '0' + m : m;
+    s = s < 10 ? '0' + s : s;
+    timerEl.textContent = m + ':' + s;
+    time--;
+    if (time < 0) clearInterval(interval);
+  }, 1000);
 }
 </script>
 </body>
