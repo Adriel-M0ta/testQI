@@ -9,6 +9,15 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
 
 <script>
+  (function() {
+    const score = localStorage.getItem('iq_score');
+    if (!score) {
+      window.location.href = 'index.html'; 
+    }
+  })();
+</script>
+
+<script>
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -47,11 +56,6 @@ src="https://www.facebook.com/tr?id=SEU_ID_DO_PIXEL_AQUI&ev=PageView&noscript=1"
     color: var(--dark-navy);
     min-height: 100vh;
     overflow-x: hidden;
-  }
-
-  /* CLASSE MÁGICA PARA ESCONDER OS BUMPS NÃO COMPRADOS */
-  .locked-section {
-    display: none !important;
   }
 
   .top-bar {
@@ -330,33 +334,63 @@ src="https://www.facebook.com/tr?id=SEU_ID_DO_PIXEL_AQUI&ev=PageView&noscript=1"
     transition: width 1.2s ease;
   }
 
-  /* CERTIFICATE STYLES (NOVO) */
-  .cert-container {
-    background: linear-gradient(135deg, #0B1628, #1A3A6B);
-    border: 4px solid #F0A500;
-    border-radius: 12px;
-    padding: 36px 24px;
-    text-align: center;
-    color: white;
-    margin-bottom: 16px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  /* CERTIFICATE STYLES (NOVO & INTERATIVO) */
+  .certificate-section {
+    margin-bottom: 40px;
+    padding: 20px;
+    background: var(--off-white);
+    border-radius: 20px;
+    border: 1px solid var(--light-gray);
   }
 
-  .btn-print {
-    width: 100%;
-    padding: 16px;
-    background: var(--off-white);
-    color: var(--dark-navy);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    border: 1px solid var(--light-gray);
+  .cert-visual {
+    background: linear-gradient(135deg, #0B1628, #132040);
+    border: 4px solid var(--gold);
     border-radius: 12px;
-    cursor: pointer;
-    transition: 0.2s;
-    margin-bottom: 36px;
+    padding: 40px 20px;
+    text-align: center;
+    color: white;
+    position: relative;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    margin-bottom: 20px;
   }
-  .btn-print:hover { background: #E2E8F0; }
+
+  .cert-visual::before {
+    content: '';
+    position: absolute;
+    top: 10px; left: 10px; right: 10px; bottom: 10px;
+    border: 1px solid rgba(240, 165, 0, 0.3);
+    border-radius: 8px;
+    pointer-events: none;
+  }
+
+  .cert-header { font-family: 'Playfair Display', serif; font-size: 12px; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; }
+  .cert-title { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 800; margin-bottom: 10px; }
+  .cert-text { font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 5px; }
+  
+  .cert-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--white);
+    margin: 15px 0;
+    border-bottom: 2px solid rgba(255,255,255,0.1);
+    display: inline-block;
+    padding-bottom: 5px;
+    min-width: 200px;
+  }
+
+  .cert-score-display { font-size: 13px; color: rgba(255,255,255,0.7); margin-top: 10px; }
+  .cert-score-display strong { color: var(--gold); font-size: 18px; }
+  .cert-seal { margin-top: 30px; font-size: 10px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 1px; }
+
+  .cert-controls { display: flex; flex-direction: column; gap: 12px; }
+  .cert-input { width: 100%; padding: 16px; border-radius: 12px; border: 1px solid var(--light-gray); font-family: 'DM Sans', sans-serif; font-size: 14px; background: var(--white); }
+  .cert-btn { width: 100%; padding: 16px; border-radius: 12px; border: none; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+  .btn-gold { background: var(--gold); color: var(--dark-navy); }
+  .btn-gold:hover { background: #d69400; }
+  .btn-print { background: var(--light-gray); color: var(--dark-navy); margin-top: 8px;}
+  .btn-print:hover { background: #dadfe9; }
 
   /* Comparison */
   .compare-card {
@@ -505,7 +539,7 @@ src="https://www.facebook.com/tr?id=SEU_ID_DO_PIXEL_AQUI&ev=PageView&noscript=1"
 
 <div class="result-body">
 
-  <div id="cognitiveBreakdown" class="locked-section">
+  <div id="cognitiveBreakdown">
     <h2 class="section-head">Cognitive Breakdown</h2>
     <div class="breakdown-grid">
       <div class="breakdown-item">
@@ -546,15 +580,27 @@ src="https://www.facebook.com/tr?id=SEU_ID_DO_PIXEL_AQUI&ev=PageView&noscript=1"
     </div>
   </div>
 
-  <div id="certificateSection" class="locked-section">
+  <div id="certificateSection" class="certificate-section">
     <h2 class="section-head">Your Official Certificate</h2>
-    <div class="cert-container">
-      <h3 class="cert-title">Certificate of Intelligence</h3>
-      <p class="cert-text">This certifies that the user has completed the cognitive assessment and achieved an official score of:</p>
-      <div class="cert-score" id="certScoreDisplay">--</div>
-      <p class="cert-seal">Verified by IQPrecision Algorithm</p>
+    
+    <div class="cert-visual" id="certificateDownloadArea">
+      <div class="cert-header">IQPrecision Institute</div>
+      <div class="cert-title">Certificate of Intelligence</div>
+      <p class="cert-text">This is to certify that</p>
+      
+      <div class="cert-name" id="certNameDisplay">YOUR NAME HERE</div>
+      
+      <p class="cert-text">has completed the Pro Cognitive Assessment and achieved an official score of:</p>
+      <div class="cert-score-display">IQ Score: <strong id="certScoreDisplayDynamic">--</strong></div>
+      <div class="cert-seal">Verified by IQPrecision Algorithm</div>
     </div>
-    <button class="btn-print" onclick="window.print()">Download as PDF</button>
+
+    <div class="cert-controls">
+      <p class="share-sub" style="text-align: left; margin-bottom: 5px;">Enter your full name to personalize your certificate:</p>
+      <input type="text" id="nameInput" class="cert-input" placeholder="e.g. John Doe">
+      <button class="cert-btn btn-gold" onclick="updateCertificateName()">Update Certificate</button>
+      <button class="cert-btn btn-print" onclick="window.print()">Download / Print PDF</button>
+    </div>
   </div>
 
   <div class="compare-card">
@@ -593,19 +639,6 @@ src="https://www.facebook.com/tr?id=SEU_ID_DO_PIXEL_AQUI&ev=PageView&noscript=1"
 </div>
 
 <script>
-  // Lógica de Leitura dos Order Bumps via URL (PerfectPay)
-  const urlParams = new URLSearchParams(window.location.search);
-  const hasBump1 = urlParams.get('bump1') === 'true'; // Comprou o Relatório Breakdown
-  const hasBump2 = urlParams.get('bump2') === 'true'; // Comprou o Certificado
-
-  // Destranca as seções se o cara pagou
-  if (hasBump1) {
-    document.getElementById('cognitiveBreakdown').classList.remove('locked-section');
-  }
-  if (hasBump2) {
-    document.getElementById('certificateSection').classList.remove('locked-section');
-  }
-
   // Lógica Dinâmica do Score
   window.addEventListener('load', () => {
     // Puxa o QI do cache (ou usa 127 de backup)
@@ -613,7 +646,7 @@ src="https://www.facebook.com/tr?id=SEU_ID_DO_PIXEL_AQUI&ev=PageView&noscript=1"
     
     // Injeta o Score na tela e no certificado
     document.getElementById('scoreDisplay').innerText = finalScore;
-    document.getElementById('certScoreDisplay').innerText = finalScore;
+    document.getElementById('certScoreDisplayDynamic').innerText = finalScore;
     document.getElementById('chartYou').innerText = `You (${finalScore})`;
     
     // Matemática Dinâmica
@@ -655,26 +688,38 @@ src="https://www.facebook.com/tr?id=SEU_ID_DO_PIXEL_AQUI&ev=PageView&noscript=1"
     // Anima a barra principal
     setTimeout(() => { document.getElementById('pctFill').style.width = fillWidth; }, 300);
 
-    // Anima as barras menores (Breakdown)
-    if (hasBump1) {
-      document.querySelectorAll('.bd-bar-fill').forEach(bar => {
-        const w = bar.getAttribute('data-width');
-        setTimeout(() => { bar.style.width = w + '%'; }, 600);
-      });
-    }
+    // Anima as barras menores (Breakdown sempre roda agora)
+    document.querySelectorAll('.bd-bar-fill').forEach(bar => {
+      const w = bar.getAttribute('data-width');
+      setTimeout(() => { bar.style.width = w + '%'; }, 600);
+    });
   });
 
-  // Botões de Compartilhamento
+  // Função para atualizar o nome no Certificado
+  function updateCertificateName() {
+    const nameInput = document.getElementById('nameInput').value;
+    const nameDisplay = document.getElementById('certNameDisplay');
+    
+    if (nameInput.trim() !== "") {
+      nameDisplay.innerText = nameInput.toUpperCase();
+      nameDisplay.style.color = "var(--gold)";
+    } else {
+      alert("Please enter your name first.");
+    }
+  }
+
+  // A URL que você quer que viralize (O SEU INDEX)
+  const VIRAL_SITE_URL = 'https://adriel-m0ta.github.io/testQI/';
+
+  // Botões de Compartilhamento apontando para o INDEX
   function shareTwitter() {
     const score = parseInt(localStorage.getItem('iq_score')) || 127;
     const text = encodeURIComponent(`I just scored ${score} on the IQPrecision test, placing me in the top tier nationally. Can you beat my score?`);
-    const url = encodeURIComponent('https://official-iq-test.com'); // Mude pro seu domínio real
-    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(VIRAL_SITE_URL)}`, '_blank');
   }
 
   function shareLinkedIn() {
-    const url = encodeURIComponent('https://official-iq-test.com'); // Mude pro seu domínio real
-    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank');
+    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(VIRAL_SITE_URL)}`, '_blank');
   }
 </script>
 </body>
