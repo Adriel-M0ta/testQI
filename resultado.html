@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
   (function() {
     const score = localStorage.getItem('iq_score');
@@ -493,41 +493,6 @@ src="https://www.facebook.com/tr?id=SEU_ID_DO_PIXEL_AQUI&ev=PageView&noscript=1"
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
   }
-/* --- REGRAS DE IMPRESSÃO (O SEGREDO DO PDF PERFEITO) --- */
-  @media print {
-    /* Esconde absolutamente tudo que não for o certificado */
-    .top-bar, .hero, #cognitiveBreakdown, .cert-controls, .compare-card, .share-section, .result-footer {
-      display: none !important;
-    }
-    
-    /* Remove a palavra "Your Official Certificate" que fica em cima */
-    .section-head {
-      display: none !important;
-    }
-    
-    /* Limpa margens e fundos do site para focar só no diploma */
-    body, .result-body, .certificate-section {
-      margin: 0 !important;
-      padding: 0 !important;
-      background: white !important;
-      border: none !important;
-    }
-
-    /* FORÇA o navegador a renderizar as cores e os fundos escuros no PDF */
-    * {
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
-    }
-
-    /* Ajusta o certificado para o tamanho do PDF */
-    .cert-visual {
-      box-shadow: none !important; /* Tira sombra pq PDF não precisa */
-      width: 100% !important;
-      max-width: 100% !important;
-      margin: 0 auto !important;
-      page-break-inside: avoid; /* Evita que o certificado corte no meio da folha */
-    }
-  }
 </style>
 </head>
 <body>
@@ -634,7 +599,7 @@ src="https://www.facebook.com/tr?id=SEU_ID_DO_PIXEL_AQUI&ev=PageView&noscript=1"
       <p class="share-sub" style="text-align: left; margin-bottom: 5px;">Enter your full name to personalize your certificate:</p>
       <input type="text" id="nameInput" class="cert-input" placeholder="e.g. John Doe">
       <button class="cert-btn btn-gold" onclick="updateCertificateName()">Update Certificate</button>
-      <button class="cert-btn btn-print" onclick="window.print()">Download / Print PDF</button>
+      <button class="cert-btn btn-print" onclick="downloadCertificate()">Download Image</button>
     </div>
   </div>
 
@@ -755,6 +720,32 @@ src="https://www.facebook.com/tr?id=SEU_ID_DO_PIXEL_AQUI&ev=PageView&noscript=1"
 
   function shareLinkedIn() {
     window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(VIRAL_SITE_URL)}`, '_blank');
+  }
+  // Função para baixar o certificado como imagem perfeita (PNG)
+  function downloadCertificate() {
+    // Muda o texto do botão pra dar um feedback visual
+    const btn = document.querySelector('.btn-print');
+    const originalText = btn.innerText;
+    btn.innerText = "Generating...";
+    
+    // Pega exatamente a caixa do certificado
+    const certArea = document.getElementById('certificateDownloadArea');
+
+    // Usa o html2canvas para "tirar o print" do elemento
+    html2canvas(certArea, {
+      scale: 3, // Aumenta a qualidade (fica em alta resolução)
+      backgroundColor: null, // Mantém as cores originais exatas
+      useCORS: true // Garante que as fontes carreguem certo na imagem
+    }).then(canvas => {
+      // Cria um link temporário para forçar o download
+      const link = document.createElement('a');
+      link.download = 'Official_IQ_Certificate.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click(); // Simula o clique
+      
+      // Volta o texto do botão ao normal
+      btn.innerText = originalText;
+    });
   }
 </script>
 </body>
