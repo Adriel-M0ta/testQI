@@ -538,13 +538,43 @@
 </div>
 
 <script>
-  // Animate percentile bar on load
+  // Lógica Dinâmica do Score
   window.addEventListener('load', () => {
+    // Puxa o QI do cache (ou usa 127 de backup)
+    const finalScore = parseInt(localStorage.getItem('iq_score')) || 127;
+    document.getElementById('scoreDisplay').innerText = finalScore;
+    
+    // Matemática Dinâmica de Percentil 
+    let percentile = "Top 12%";
+    let fillWidth = "82%";
+    if (finalScore >= 130) { percentile = "Top 2%"; fillWidth = "95%"; }
+    else if (finalScore >= 125) { percentile = "Top 5%"; fillWidth = "88%"; }
+    else if (finalScore >= 120) { percentile = "Top 9%"; fillWidth = "85%"; }
+    else { percentile = "Top 15%"; fillWidth = "78%"; }
+    
+    // Atualiza a tela
+    document.querySelector('.stat-val').innerText = percentile; 
+    document.querySelectorAll('.pct-labels span')[1].innerText = `You (${finalScore})`;
+
+    // Atualiza as comparações com a média
+    const diffAvg = finalScore - 100;
+    const diffMensa = 130 - finalScore;
+    document.querySelectorAll('.cmp-val.above')[0].innerText = `+${diffAvg} points ↑`;
+    
+    // Checa se passou da Mensa (130)
+    if(diffMensa <= 0) {
+        document.querySelector('.cmp-val.same').innerText = `Qualified (+${Math.abs(diffMensa)})`;
+        document.querySelector('.cmp-val.same').style.color = "#10B981"; // Verde sucesso
+    } else {
+        document.querySelector('.cmp-val.same').innerText = `${diffMensa} points away`;
+    }
+
+    // Anima a barra principal
     setTimeout(() => {
-      document.getElementById('pctFill').style.width = '82%';
+      document.getElementById('pctFill').style.width = fillWidth;
     }, 300);
 
-    // Animate breakdown bars
+    // Anima as barras menores
     document.querySelectorAll('.bd-bar-fill').forEach(bar => {
       const w = bar.getAttribute('data-width');
       setTimeout(() => { bar.style.width = w + '%'; }, 600);
