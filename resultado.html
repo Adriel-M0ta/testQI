@@ -12,17 +12,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Your IQ Results — IQPrecision</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script>
-  (function() {
-    const score = localStorage.getItem('iq_score');
-    if (!score) {
-      window.location.href = 'index.html'; 
-    }
-  })();
-</script>
 
 <script>
 !function(f,b,e,v,n,t,s)
@@ -33,785 +24,1540 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '27225033893761445'); // COLOQUE SEU ID AQUI DEPOIS
+fbq('init', '27225033893761445');
 fbq('track', 'PageView');
-fbq('track', 'Purchase', {value: 2.00, currency: 'USD'}); // Avisa o Meta que vendeu!
+fbq('track', 'Purchase', {value: 5.00, currency: 'USD'});
 </script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=27225033893761445&ev=PageView&noscript=1"
-/></noscript>
+
 <style>
-  :root {
-    --white: #FFFFFF;
-    --off-white: #F4F6FA;
-    --light-gray: #E8ECF4;
-    --mid-gray: #9AA5BC;
-    --dark-navy: #0B1628;
-    --navy: #132040;
-    --blue-accent: #1A3A6B;
-    --blue-bright: #2563EB;
-    --blue-glow: #3B82F6;
-    --gold: #F0A500;
-    --success: #10B981;
-  }
+:root {
+  --bg: #0A0D14;
+  --surface: #111520;
+  --surface2: #161B2A;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --text: #F0EDE6;
+  --text2: rgba(240,237,230,0.55);
+  --text3: rgba(240,237,230,0.3);
+  --gold: #C9A84C;
+  --gold2: #E8C87A;
+  --gold-dim: rgba(201,168,76,0.15);
+  --blue: #4A90D9;
+  --blue-dim: rgba(74,144,217,0.12);
+  --green: #3DB887;
+  --green-dim: rgba(61,184,135,0.12);
+  --red: #D9534A;
+}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--white);
-    color: var(--dark-navy);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
-  .top-bar {
-    background: var(--dark-navy);
-    padding: 16px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
+/* TOP BAR */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: rgba(10,13,20,0.92);
+  backdrop-filter: blur(12px);
+  z-index: 100;
+}
 
-  .logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 20px;
-    font-weight: 800;
-    color: var(--white);
-  }
+.logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--text);
+}
 
-  .logo span { color: var(--blue-glow); }
+.logo em { color: var(--gold); font-style: normal; }
 
-  .badge {
-    background: var(--success);
-    color: var(--white);
-    font-size: 11px;
-    font-weight: 700;
-    padding: 5px 12px;
-    border-radius: 20px;
-    letter-spacing: 0.5px;
-  }
+.topbar-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--green-dim);
+  border: 1px solid rgba(61,184,135,0.3);
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 100px;
+  letter-spacing: 0.3px;
+}
 
-  /* Hero */
-  .hero {
-    background: var(--dark-navy);
-    padding: 40px 24px 48px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
+.topbar-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--green);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
 
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: -80px; left: 50%;
-    transform: translateX(-50%);
-    width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%);
-    pointer-events: none;
-  }
+@keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
 
-  .unlocked-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(16,185,129,0.15);
-    border: 1px solid rgba(16,185,129,0.35);
-    color: #6EE7B7;
-    font-size: 12px;
-    font-weight: 700;
-    padding: 7px 16px;
-    border-radius: 20px;
-    margin-bottom: 24px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    animation: fadeUp 0.5s ease both;
-  }
+/* HERO */
+.hero {
+  padding: 60px 24px 0;
+  text-align: center;
+  max-width: 520px;
+  margin: 0 auto;
+}
 
-  .hero-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(26px, 7vw, 40px);
-    font-weight: 900;
-    color: var(--white);
-    line-height: 1.15;
-    margin-bottom: 8px;
-    animation: fadeUp 0.5s 0.1s ease both;
-  }
+.hero-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: slideUp 0.6s 0.1s forwards;
+}
 
-  .hero-sub {
-    font-size: 15px;
-    color: rgba(255,255,255,0.5);
-    margin-bottom: 36px;
-    animation: fadeUp 0.5s 0.2s ease both;
-  }
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(36px, 9vw, 58px);
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--text);
+  margin-bottom: 12px;
+  opacity: 0;
+  animation: slideUp 0.6s 0.2s forwards;
+}
 
-  /* IQ Score Card */
-  .score-card {
-    background: var(--white);
-    border-radius: 24px;
-    padding: 32px 24px;
-    max-width: 340px;
-    margin: 0 auto 28px;
-    position: relative;
-    animation: fadeUp 0.5s 0.3s ease both;
-    overflow: hidden;
-  }
+.hero-title em {
+  font-style: italic;
+  color: var(--gold2);
+}
 
-  .score-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, var(--blue-bright), var(--blue-glow), #93C5FD);
-  }
+.hero-sub {
+  font-size: 15px;
+  color: var(--text2);
+  line-height: 1.6;
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: slideUp 0.6s 0.3s forwards;
+}
 
-  .score-label {
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--mid-gray);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-    text-align: center;
-  }
+/* SCORE DISPLAY */
+.score-ring-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: slideUp 0.6s 0.4s forwards;
+}
 
-  .score-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 86px;
-    font-weight: 900;
-    color: var(--dark-navy);
-    line-height: 1;
-    text-align: center;
-    letter-spacing: -4px;
-    animation: countUp 1.5s 0.8s ease both;
-    display: block;
-  }
+.score-ring-bg {
+  position: relative;
+  width: 220px;
+  height: 220px;
+}
 
-  @keyframes countUp {
-    from { opacity: 0; transform: scale(0.8); }
-    to { opacity: 1; transform: scale(1); }
-  }
+.score-ring-bg svg {
+  transform: rotate(-90deg);
+  position: absolute;
+  top: 0; left: 0;
+}
 
-  .score-category {
-    text-align: center;
-    font-size: 18px;
-    font-weight: 800;
-    color: var(--blue-bright);
-    margin: 6px 0 20px;
-  }
+.score-ring-inner {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  text-align: center;
+}
 
-  .score-divider {
-    height: 1px;
-    background: var(--light-gray);
-    margin: 0 -4px 20px;
-  }
+.score-big {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 72px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+  display: block;
+}
 
-  .score-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
+.score-label-sm {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-top: 4px;
+}
 
-  .stat-box {
-    text-align: center;
-    padding: 14px;
-    background: var(--off-white);
-    border-radius: 12px;
-  }
+.score-category-badge {
+  margin-top: 20px;
+  display: inline-block;
+  background: var(--gold-dim);
+  border: 1px solid rgba(201,168,76,0.35);
+  color: var(--gold2);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 20px;
+  border-radius: 100px;
+  letter-spacing: 0.3px;
+}
 
-  .stat-val {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px;
-    font-weight: 900;
-    color: var(--dark-navy);
-    display: block;
-  }
+/* STATS ROW */
+.stats-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  max-width: 520px;
+  margin: 0 auto 56px;
+  opacity: 0;
+  animation: slideUp 0.6s 0.5s forwards;
+}
 
-  .stat-lbl {
-    font-size: 11px;
-    color: var(--mid-gray);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-  }
+.stat-cell {
+  background: var(--surface);
+  padding: 20px 16px;
+  text-align: center;
+}
 
-  /* Percentile bar */
-  .pct-section {
-    max-width: 340px;
-    margin: 0 auto;
-    animation: fadeUp 0.5s 0.4s ease both;
-  }
+.stat-cell-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text);
+  display: block;
+  line-height: 1;
+  margin-bottom: 6px;
+}
 
-  .pct-title {
-    color: rgba(255,255,255,0.45);
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    margin-bottom: 12px;
-    text-align: center;
-  }
+.stat-cell-lbl {
+  font-size: 11px;
+  color: var(--text3);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
 
-  .pct-bar-bg {
-    background: rgba(255,255,255,0.1);
-    border-radius: 10px;
-    height: 8px;
-    overflow: hidden;
-    margin-bottom: 8px;
-  }
+/* SECTION WRAPPER */
+.body-wrap {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 0 20px 80px;
+}
 
-  .pct-bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #60A5FA, var(--blue-glow));
-    border-radius: 10px;
-    width: 0%;
-    transition: width 1.5s 1s cubic-bezier(0.4,0,0.2,1);
-  }
+.section {
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: slideUp 0.6s forwards;
+}
 
-  .pct-labels {
-    display: flex;
-    justify-content: space-between;
-    font-size: 11px;
-    color: rgba(255,255,255,0.3);
-    font-weight: 600;
-  }
+.section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
 
-  /* Body */
-  .result-body {
-    padding: 36px 24px 60px;
-    max-width: 480px;
-    margin: 0 auto;
-  }
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
 
-  .section-head {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px;
-    font-weight: 800;
-    color: var(--dark-navy);
-    margin-bottom: 16px;
-  }
+/* CELEBRITY CARD */
+.celeb-card {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 20px;
+  overflow: hidden;
+}
 
-  /* Cognitive breakdown */
-  .breakdown-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    margin-bottom: 36px;
-    animation: fadeUp 0.5s 0.5s ease both;
-  }
+.celeb-top {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
 
-  .breakdown-item {
-    background: var(--off-white);
-    border-radius: 14px;
-    padding: 16px 18px;
-    border: 1px solid var(--light-gray);
-  }
+.celeb-photo-col {
+  width: 130px;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
 
-  .bd-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-  }
+.celeb-photo {
+  width: 100%;
+  height: 100%;
+  min-height: 160px;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(20%);
+}
 
-  .bd-name {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--dark-navy);
-  }
+.celeb-photo-placeholder {
+  width: 100%;
+  min-height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface2);
+  font-size: 52px;
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--gold);
+  font-weight: 700;
+}
 
-  .bd-score {
-    font-size: 14px;
-    font-weight: 800;
-    color: var(--blue-bright);
-  }
+.celeb-info-col {
+  flex: 1;
+  padding: 22px 20px;
+}
 
-  .bd-bar-bg {
-    background: var(--light-gray);
-    border-radius: 10px;
-    height: 6px;
-    overflow: hidden;
-  }
+.celeb-vs-tag {
+  display: inline-block;
+  background: var(--gold-dim);
+  border: 1px solid rgba(201,168,76,0.3);
+  color: var(--gold);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
 
-  .bd-bar-fill {
-    height: 100%;
-    border-radius: 10px;
-    background: linear-gradient(90deg, var(--blue-glow), var(--blue-bright));
-    width: 0%;
-    transition: width 1.2s ease;
-  }
+.celeb-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
 
-  /* CERTIFICATE STYLES */
-  .certificate-section {
-    margin-bottom: 40px;
-    padding: 20px;
-    background: var(--off-white);
-    border-radius: 20px;
-    border: 1px solid var(--light-gray);
-  }
+.celeb-role {
+  font-size: 12px;
+  color: var(--text2);
+  margin-bottom: 16px;
+}
 
-  .cert-visual {
-    background: linear-gradient(135deg, #0B1628, #132040);
-    border: 4px solid var(--gold);
-    border-radius: 12px;
-    padding: 40px 20px;
-    text-align: center;
-    color: white;
-    position: relative;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-    margin-bottom: 20px;
-  }
+.celeb-iq-compare {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
 
-  .cert-visual::before {
-    content: '';
-    position: absolute;
-    top: 10px; left: 10px; right: 10px; bottom: 10px;
-    border: 1px solid rgba(240, 165, 0, 0.3);
-    border-radius: 8px;
-    pointer-events: none;
-  }
+.celeb-iq-them {
+  text-align: center;
+}
 
-  .cert-header { font-family: 'Playfair Display', serif; font-size: 12px; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; }
-  .cert-title { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 800; margin-bottom: 10px; }
-  .cert-text { font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 5px; }
-  
-  .cert-name {
-    font-family: 'Playfair Display', serif;
-    font-size: 28px;
-    font-weight: 900;
-    color: var(--white);
-    margin: 15px 0;
-    border-bottom: 2px solid rgba(255,255,255,0.1);
-    display: inline-block;
-    padding-bottom: 5px;
-    min-width: 200px;
-  }
+.celeb-iq-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  font-weight: 700;
+  display: block;
+  line-height: 1;
+}
 
-  .cert-score-display { font-size: 13px; color: rgba(255,255,255,0.7); margin-top: 10px; }
-  .cert-score-display strong { color: var(--gold); font-size: 18px; }
-  .cert-seal { margin-top: 30px; font-size: 10px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 1px; }
+.celeb-iq-sublbl {
+  font-size: 10px;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
 
-  .cert-controls { display: flex; flex-direction: column; gap: 12px; }
-  .cert-input { width: 100%; padding: 16px; border-radius: 12px; border: 1px solid var(--light-gray); font-family: 'DM Sans', sans-serif; font-size: 14px; background: var(--white); }
-  .cert-btn { width: 100%; padding: 16px; border-radius: 12px; border: none; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: 0.2s; }
-  .btn-gold { background: var(--gold); color: var(--dark-navy); }
-  .btn-gold:hover { background: #d69400; }
-  .btn-print { background: var(--light-gray); color: var(--dark-navy); margin-top: 8px;}
-  .btn-print:hover { background: #dadfe9; }
+.celeb-iq-divider {
+  font-size: 18px;
+  color: var(--text3);
+  padding: 0 4px;
+}
 
-  /* Comparison */
-  .compare-card {
-    background: var(--dark-navy);
-    border-radius: 20px;
-    padding: 28px 24px;
-    margin-bottom: 32px;
-    animation: fadeUp 0.5s 0.6s ease both;
-  }
+.celeb-bottom {
+  padding: 18px 20px;
+  border-top: 1px solid var(--border);
+  background: var(--surface2);
+}
 
-  .cmp-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 18px;
-    font-weight: 800;
-    color: var(--white);
-    margin-bottom: 20px;
-  }
+.celeb-insight {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.65;
+}
 
-  .cmp-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-  }
+.celeb-insight strong {
+  color: var(--text);
+  font-weight: 600;
+}
 
-  .cmp-label {
-    font-size: 13px;
-    color: rgba(255,255,255,0.55);
-    font-weight: 500;
-  }
+.celeb-win-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  background: var(--green-dim);
+  border: 1px solid rgba(61,184,135,0.25);
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 100px;
+}
 
-  .cmp-val {
-    font-size: 14px;
-    font-weight: 700;
-  }
+/* BREAKDOWN BARS */
+.breakdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 
-  .cmp-val.above { color: #6EE7B7; }
-  .cmp-val.same { color: #FCD34D; }
-  .cmp-val.below { color: #FCA5A5; }
+.bd-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 18px;
+}
 
-  /* Share */
-  .share-section {
-    background: var(--off-white);
-    border-radius: 20px;
-    padding: 28px 24px;
-    text-align: center;
-    border: 1px solid var(--light-gray);
-    animation: fadeUp 0.5s 0.7s ease both;
-  }
+.bd-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
 
-  .share-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 20px;
-    font-weight: 800;
-    color: var(--dark-navy);
-    margin-bottom: 6px;
-  }
+.bd-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
 
-  .share-sub {
-    font-size: 14px;
-    color: var(--mid-gray);
-    margin-bottom: 20px;
-  }
+.bd-score {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gold2);
+}
 
-  .share-btns {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-  }
+.bd-track {
+  background: rgba(255,255,255,0.06);
+  border-radius: 10px;
+  height: 5px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
 
-  .share-btn {
-    flex: 1;
-    max-width: 160px;
-    padding: 14px;
-    border-radius: 12px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    border: none;
-    transition: transform 0.18s;
-    color: white;
-  }
+.bd-fill {
+  height: 100%;
+  border-radius: 10px;
+  background: linear-gradient(90deg, var(--gold), var(--gold2));
+  width: 0%;
+  transition: width 1.4s cubic-bezier(0.25,0.46,0.45,0.94);
+}
 
-  .share-btn:hover { transform: translateY(-2px); }
+.bd-desc {
+  font-size: 11px;
+  color: var(--text3);
+  line-height: 1.5;
+}
 
-  .share-twitter { background: var(--dark-navy); }
-  .share-linkedin { background: #0077b5; }
+/* BRAIN TYPE CARD */
+.brain-type-card {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 20px;
+  padding: 28px 24px;
+  position: relative;
+  overflow: hidden;
+}
 
-  /* Footer */
-  .result-footer {
-    text-align: center;
-    padding: 24px;
-    border-top: 1px solid var(--light-gray);
-    font-size: 12px;
-    color: var(--mid-gray);
-  }
+.brain-type-card::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+.brain-type-icon {
+  font-size: 40px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.brain-type-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--gold2);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.brain-type-sub {
+  font-size: 13px;
+  color: var(--text2);
+  margin-bottom: 20px;
+}
+
+.brain-traits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.brain-trait {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: 100px;
+}
+
+.brain-desc {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.7;
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+}
+
+/* IQ BELL CURVE */
+.bellcurve-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 24px 20px 16px;
+}
+
+.curve-svg-wrap {
+  position: relative;
+  width: 100%;
+}
+
+/* PERCENTILE COMPARE */
+.compare-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.compare-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.compare-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.compare-icon.above { background: var(--green-dim); }
+.compare-icon.near { background: rgba(201,168,76,0.12); }
+.compare-icon.below { background: rgba(74,144,217,0.12); }
+
+.compare-meta { flex: 1; }
+
+.compare-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.compare-detail {
+  font-size: 11px;
+  color: var(--text3);
+}
+
+.compare-delta {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.compare-delta.above { color: var(--green); }
+.compare-delta.near { color: var(--gold); }
+.compare-delta.below { color: var(--blue); }
+
+/* CAREER PATHS */
+.career-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.career-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 16px;
+  transition: border-color 0.2s;
+}
+
+.career-card:hover { border-color: var(--border2); }
+
+.career-emoji { font-size: 24px; margin-bottom: 10px; display: block; }
+
+.career-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.career-why {
+  font-size: 11px;
+  color: var(--text3);
+  line-height: 1.5;
+}
+
+/* FUN FACTS */
+.fact-scroll {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fact-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.fact-num {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: var(--gold-dim);
+  border: 1px solid rgba(201,168,76,0.25);
+  color: var(--gold);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.fact-text {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.65;
+}
+
+.fact-text strong { color: var(--text); font-weight: 600; }
+
+/* CERTIFICATE */
+.cert-outer {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.cert-visual {
+  background: linear-gradient(135deg, #0D1221, #162038);
+  border: 2px solid var(--gold);
+  border-radius: 12px;
+  padding: 36px 24px;
+  text-align: center;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.cert-visual::before {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 6px;
+  pointer-events: none;
+}
+
+.cert-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 100px;
+  font-weight: 700;
+  color: rgba(201,168,76,0.04);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.cert-org {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 24px;
+}
+
+.cert-h {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.cert-p { font-size: 12px; color: rgba(255,255,255,0.55); margin-bottom: 4px; }
+
+.cert-name-display {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--gold2);
+  margin: 16px 0;
+  display: block;
+  min-height: 42px;
+}
+
+.cert-score-line { font-size: 12px; color: rgba(255,255,255,0.55); }
+.cert-score-line strong { color: var(--gold2); font-size: 20px; }
+
+.cert-footer { margin-top: 24px; font-size: 10px; color: rgba(255,255,255,0.25); letter-spacing: 1px; text-transform: uppercase; }
+
+.cert-controls { display: flex; flex-direction: column; gap: 10px; }
+
+.cert-input {
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.cert-input:focus { border-color: rgba(201,168,76,0.5); }
+.cert-input::placeholder { color: var(--text3); }
+
+.cert-btn {
+  width: 100%;
+  padding: 15px;
+  border-radius: 12px;
+  border: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-gold-solid { background: var(--gold); color: #0A0D14; }
+.btn-gold-solid:hover { background: var(--gold2); transform: translateY(-1px); }
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--text2);
+}
+
+.btn-outline:hover { background: var(--surface2); color: var(--text); }
+
+/* UPSELL */
+.upsell-block {
+  background: linear-gradient(135deg, #0D1221, #0F1D35);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 20px;
+  padding: 32px 24px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.upsell-block::before {
+  content: '';
+  position: absolute;
+  bottom: -80px;
+  right: -80px;
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(201,168,76,0.1) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.upsell-tag {
+  display: inline-block;
+  background: var(--gold);
+  color: #0A0D14;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 100px;
+  margin-bottom: 20px;
+}
+
+.upsell-h {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+
+.upsell-p {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.upsell-cta {
+  display: block;
+  width: 100%;
+  padding: 17px;
+  background: var(--gold);
+  color: #0A0D14;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.2s;
+  letter-spacing: 0.2px;
+}
+
+.upsell-cta:hover { background: var(--gold2); transform: translateY(-2px); }
+
+/* SHARE */
+.share-row {
+  display: flex;
+  gap: 12px;
+}
+
+.share-btn {
+  flex: 1;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border2);
+  background: var(--surface);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.share-btn:hover { background: var(--surface2); transform: translateY(-1px); }
+
+/* FOOTER */
+.page-footer {
+  text-align: center;
+  padding: 28px 24px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--text3);
+}
+
+/* ANIMATIONS */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.delay-1 { animation-delay: 0.6s; }
+.delay-2 { animation-delay: 0.7s; }
+.delay-3 { animation-delay: 0.8s; }
+.delay-4 { animation-delay: 0.9s; }
+.delay-5 { animation-delay: 1s; }
+.delay-6 { animation-delay: 1.1s; }
+.delay-7 { animation-delay: 1.2s; }
+.delay-8 { animation-delay: 1.35s; }
+
+/* Ring animation */
+.ring-track { transition: stroke-dashoffset 2s 0.8s cubic-bezier(0.25,0.46,0.45,0.94); }
+
+/* DELIVERY BLOCK */
+.delivery-block {
+  display: none;
+  background: linear-gradient(135deg, #071A13, #0A2A20);
+  border: 1px solid rgba(61,184,135,0.35);
+  border-radius: 20px;
+  padding: 32px 24px;
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.delivery-h {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.delivery-p { font-size: 13px; color: rgba(61,184,135,0.8); margin-bottom: 20px; }
+
+.delivery-dl {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  background: var(--green);
+  color: #071A13;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 12px;
+  text-decoration: none;
+}
 </style>
 </head>
 <body>
 
-<div class="top-bar">
-  <div class="logo">IQ<span>Precision</span></div>
-  <div class="badge">✓ Unlocked</div>
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="logo">IQ<em>Precision</em></div>
+  <div class="topbar-badge">Report Unlocked</div>
 </div>
 
+<!-- HERO -->
 <div class="hero">
-  <div class="unlocked-tag">🔓 Results Unlocked</div>
-  <h1 class="hero-title">Your Full IQ Profile</h1>
-  <p class="hero-sub">Cognitive assessment complete — here's where you truly stand.</p>
+  <div class="hero-eyebrow">Full Cognitive Report</div>
+  <h1 class="hero-title">Your <em>complete</em><br>IQ profile.</h1>
+  <p class="hero-sub">Here's everything about how your mind works — where you excel, how you compare, and what it means for your future.</p>
+</div>
 
-  <div class="score-card">
-    <div class="score-label">Your IQ Score</div>
-    <span class="score-num" id="scoreDisplay">127</span>
-    <div class="score-category" id="scoreCategoryText">Superior Intelligence</div>
-    <div class="score-divider"></div>
-    <div class="score-stats">
-      <div class="stat-box">
-        <span class="stat-val" id="percentileDisplay">Top 12%</span>
-        <span class="stat-lbl">Nationally</span>
+<!-- SCORE RING -->
+<div style="display:flex; justify-content:center; padding: 0 24px; max-width:560px; margin: 0 auto 24px;">
+  <div class="score-ring-wrap" style="width:100%; align-items:center;">
+    <div class="score-ring-bg">
+      <svg width="220" height="220" viewBox="0 0 220 220">
+        <!-- bg track -->
+        <circle cx="110" cy="110" r="96" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="8"/>
+        <!-- tick marks -->
+        <g id="ticks"></g>
+        <!-- colored arc -->
+        <circle id="scoreArc" cx="110" cy="110" r="96"
+          fill="none"
+          stroke="url(#arcGrad)"
+          stroke-width="8"
+          stroke-linecap="round"
+          stroke-dasharray="603"
+          stroke-dashoffset="603"
+          class="ring-track"/>
+        <defs>
+          <linearGradient id="arcGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#C9A84C"/>
+            <stop offset="100%" stop-color="#E8C87A"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div class="score-ring-inner">
+        <span class="score-big" id="scoreDisplay">127</span>
+        <span class="score-label-sm">IQ Score</span>
       </div>
-      <div class="stat-box">
-        <span class="stat-val" id="mensaStatus">Above</span>
-        <span class="stat-lbl">Mensa threshold?</span>
-      </div>
     </div>
-  </div>
-
-  <div class="pct-section">
-    <div class="pct-title">Your Percentile vs. US Population</div>
-    <div class="pct-bar-bg">
-      <div class="pct-bar-fill" id="pctFill"></div>
-    </div>
-    <div class="pct-labels">
-      <span>Average (100)</span>
-      <span id="chartYou">You (127)</span>
-      <span>Genius (145+)</span>
-    </div>
+    <div class="score-category-badge" id="scoreCategoryBadge">Superior Intelligence</div>
   </div>
 </div>
 
-<div class="result-body">
+<!-- STATS ROW -->
+<div class="stats-row">
+  <div class="stat-cell">
+    <span class="stat-cell-val" id="statPercentile">Top 5%</span>
+    <span class="stat-cell-lbl">Nationally</span>
+  </div>
+  <div class="stat-cell">
+    <span class="stat-cell-val" id="statMensa">2 pts</span>
+    <span class="stat-cell-lbl">To Mensa</span>
+  </div>
+  <div class="stat-cell">
+    <span class="stat-cell-val" id="statBeat">97 of 100</span>
+    <span class="stat-cell-lbl">People you beat</span>
+  </div>
+</div>
 
-  <div id="cognitiveBreakdown">
-    <h2 class="section-head">Cognitive Breakdown</h2>
-    <div class="breakdown-grid">
-      <div class="breakdown-item">
-        <div class="bd-top">
+<div class="body-wrap">
+
+  <!-- ===== CELEBRITY COMPARISON ===== -->
+  <div class="section delay-1">
+    <div class="section-label">Intelligence Benchmark</div>
+    <div class="section-title">You vs. a famous mind</div>
+    <div class="celeb-card" id="celebCard">
+      <div class="celeb-top">
+        <div class="celeb-photo-col">
+          <div class="celeb-photo-placeholder" id="celebPhotoPlaceholder">?</div>
+        </div>
+        <div class="celeb-info-col">
+          <div class="celeb-vs-tag">IQ Comparison</div>
+          <div class="celeb-name" id="celebName">—</div>
+          <div class="celeb-role" id="celebRole">—</div>
+          <div class="celeb-iq-compare">
+            <div class="celeb-iq-them">
+              <span class="celeb-iq-val" id="celebIQVal" style="color: var(--text2);">—</span>
+              <span class="celeb-iq-sublbl">Their IQ</span>
+            </div>
+            <div class="celeb-iq-divider">→</div>
+            <div class="celeb-iq-them">
+              <span class="celeb-iq-val" id="celebYourVal" style="color: var(--gold2);">—</span>
+              <span class="celeb-iq-sublbl">Your IQ</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="celeb-bottom">
+        <div class="celeb-insight" id="celebInsight">—</div>
+        <div class="celeb-win-badge" id="celebBadge" style="display:none;">
+          <span>↑</span> <span id="celebBadgeText">You scored higher</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== BELL CURVE ===== -->
+  <div class="section delay-2">
+    <div class="section-label">Population Distribution</div>
+    <div class="section-title">Where you sit on the curve</div>
+    <div class="bellcurve-wrap">
+      <canvas id="bellCanvas" width="520" height="180" style="width:100%; display:block;"></canvas>
+      <div style="display:flex; justify-content:space-between; margin-top:10px; font-size:11px; color:var(--text3);">
+        <span>70</span><span>85</span><span>100</span><span>115</span><span>130</span><span>145+</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px; margin-top:14px; flex-wrap:wrap; justify-content:center;">
+        <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text3);">
+          <span style="width:12px;height:12px;border-radius:3px;background:rgba(201,168,76,0.35);flex-shrink:0;"></span>Population
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--gold);">
+          <span style="width:12px;height:12px;border-radius:3px;background:var(--gold);flex-shrink:0;"></span>Your score
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== COGNITIVE BREAKDOWN ===== -->
+  <div class="section delay-3">
+    <div class="section-label">Detailed Analysis</div>
+    <div class="section-title">Your cognitive profile</div>
+    <div class="breakdown-list">
+      <div class="bd-item">
+        <div class="bd-head">
           <span class="bd-name">Pattern Recognition</span>
-          <span class="bd-score">94/100</span>
+          <span class="bd-score" id="bd1score">94</span>
         </div>
-        <div class="bd-bar-bg"><div class="bd-bar-fill" data-width="94"></div></div>
+        <div class="bd-track"><div class="bd-fill" data-w="94"></div></div>
+        <p class="bd-desc">Your strongest trait — you instantly see structures, relationships and anomalies others miss completely.</p>
       </div>
-      <div class="breakdown-item">
-        <div class="bd-top">
-          <span class="bd-name">Logical Reasoning</span>
-          <span class="bd-score">88/100</span>
-        </div>
-        <div class="bd-bar-bg"><div class="bd-bar-fill" data-width="88"></div></div>
-      </div>
-      <div class="breakdown-item">
-        <div class="bd-top">
-          <span class="bd-name">Working Memory</span>
-          <span class="bd-score">79/100</span>
-        </div>
-        <div class="bd-bar-bg"><div class="bd-bar-fill" data-width="79"></div></div>
-      </div>
-      <div class="breakdown-item">
-        <div class="bd-top">
+      <div class="bd-item">
+        <div class="bd-head">
           <span class="bd-name">Fluid Intelligence</span>
-          <span class="bd-score">91/100</span>
+          <span class="bd-score" id="bd2score">91</span>
         </div>
-        <div class="bd-bar-bg"><div class="bd-bar-fill" data-width="91"></div></div>
+        <div class="bd-track"><div class="bd-fill" data-w="91"></div></div>
+        <p class="bd-desc">Ability to solve novel problems using logic, without relying on prior knowledge. Rare and highly valued.</p>
       </div>
-      <div class="breakdown-item">
-        <div class="bd-top">
+      <div class="bd-item">
+        <div class="bd-head">
+          <span class="bd-name">Logical Reasoning</span>
+          <span class="bd-score" id="bd3score">88</span>
+        </div>
+        <div class="bd-track"><div class="bd-fill" data-w="88"></div></div>
+        <p class="bd-desc">You construct tight, valid arguments and rarely fall for logical fallacies that trip up most people.</p>
+      </div>
+      <div class="bd-item">
+        <div class="bd-head">
           <span class="bd-name">Verbal Reasoning</span>
-          <span class="bd-score">83/100</span>
+          <span class="bd-score" id="bd4score">83</span>
         </div>
-        <div class="bd-bar-bg"><div class="bd-bar-fill" data-width="83"></div></div>
+        <div class="bd-track"><div class="bd-fill" data-w="83"></div></div>
+        <p class="bd-desc">Above average language comprehension and precise verbal expression — a key edge in negotiation and communication.</p>
+      </div>
+      <div class="bd-item">
+        <div class="bd-head">
+          <span class="bd-name">Working Memory</span>
+          <span class="bd-score" id="bd5score">79</span>
+        </div>
+        <div class="bd-track"><div class="bd-fill" data-w="79"></div></div>
+        <p class="bd-desc">Your most improvable area. Consider memory training, deep sleep, and mindfulness to push this higher.</p>
       </div>
     </div>
   </div>
 
-  <div id="certificateSection" class="certificate-section">
-    <h2 class="section-head">Your Official Certificate</h2>
-    
-    <div class="cert-visual" id="certificateDownloadArea">
-      <div class="cert-header">IQPrecision Institute</div>
-      <div class="cert-title">Certificate of Intelligence</div>
-      <p class="cert-text">This is to certify that</p>
-      
-      <div class="cert-name" id="certNameDisplay">YOUR NAME HERE</div>
-      
-      <p class="cert-text">has completed the Pro Cognitive Assessment and achieved an official score of:</p>
-      <div class="cert-score-display">IQ Score: <strong id="certScoreDisplayDynamic">--</strong></div>
-      <div class="cert-seal">Verified by IQPrecision Algorithm</div>
-    </div>
-
-    <div class="cert-controls">
-      <p class="share-sub" style="text-align: left; margin-bottom: 5px;">Enter your full name to personalize your certificate:</p>
-      <input type="text" id="nameInput" class="cert-input" placeholder="e.g. John Doe">
-      <button class="cert-btn btn-gold" onclick="updateCertificateName()">Update Certificate</button>
-      <button class="cert-btn btn-print" onclick="downloadCertificate()">Download Image</button>
+  <!-- ===== BRAIN TYPE ===== -->
+  <div class="section delay-4">
+    <div class="section-label">Cognitive Archetype</div>
+    <div class="section-title">Your brain type</div>
+    <div class="brain-type-card">
+      <span class="brain-type-icon" id="brainTypeIcon">🔭</span>
+      <div class="brain-type-name" id="brainTypeName">The Strategist</div>
+      <div class="brain-type-sub" id="brainTypeSub">High pattern recognition + fluid intelligence</div>
+      <div class="brain-traits" id="brainTraits">
+        <span class="brain-trait">Systems thinker</span>
+        <span class="brain-trait">Sees the big picture</span>
+        <span class="brain-trait">Long-term planner</span>
+        <span class="brain-trait">Persuasive communicator</span>
+      </div>
+      <p class="brain-desc" id="brainDesc">
+        Your score pattern is consistent with a natural <strong>Strategist</strong> — someone who thinks several moves ahead, connects unrelated ideas effortlessly, and finds solutions others overlook. This profile is common among successful entrepreneurs, executives, and innovators. Your strongest play is in roles requiring vision and complex problem-solving.
+      </p>
     </div>
   </div>
 
-  <div class="compare-card">
-    <div class="cmp-title">How You Compare</div>
-    <div class="cmp-row">
-      <span class="cmp-label">vs. US Average (100)</span>
-      <span class="cmp-val above" id="cmpAvg">+27 points ↑</span>
-    </div>
-    <div class="cmp-row">
-      <span class="cmp-label">vs. College graduates (115)</span>
-      <span class="cmp-val above" id="cmpCollege">+12 points ↑</span>
-    </div>
-    <div class="cmp-row">
-      <span class="cmp-label">vs. Mensa threshold (130)</span>
-      <span class="cmp-val same" id="cmpMensa">3 points away</span>
-    </div>
-    <div class="cmp-row" style="margin-bottom:0">
-      <span class="cmp-label">vs. Genius level (145+)</span>
-      <span class="cmp-val below" id="cmpGenius">18 points below</span>
-    </div>
-    
-    <div class="cmp-row" style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed rgba(255,255,255,0.2);">
-      <span class="cmp-label" style="color: var(--gold);">Celebrity Benchmark</span>
-      <span class="cmp-val" id="celebrityMatch" style="color: var(--gold);">Processing...</span>
+  <!-- ===== COMPARISON TABLE ===== -->
+  <div class="section delay-5">
+    <div class="section-label">Context</div>
+    <div class="section-title">How you compare</div>
+    <div class="compare-list" id="compareList">
+      <!-- injected by JS -->
     </div>
   </div>
 
-  <div id="downsellOffer" style="background: linear-gradient(135deg, #111827, #1A3A6B); border: 2px dashed var(--gold); border-radius: 20px; padding: 28px 24px; margin-bottom: 32px; text-align: center; color: white;">
-    <div style="background: var(--gold); color: var(--dark-navy); font-size: 11px; font-weight: 800; text-transform: uppercase; padding: 4px 12px; border-radius: 20px; display: inline-block; margin-bottom: 16px;">
-      Secret Discount Unlocked
+  <!-- ===== CAREER PATHS ===== -->
+  <div class="section delay-6">
+    <div class="section-label">Your Edge</div>
+    <div class="section-title">Fields where you'll dominate</div>
+    <div class="career-grid" id="careerGrid">
+      <!-- injected by JS -->
     </div>
-    <div style="font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 800; color: white; margin-bottom: 12px;">
-      Because you scored in the <span id="downsellPct">Top 15%</span>, you qualify for a cognitive grant.
+  </div>
+
+  <!-- ===== FUN FACTS ===== -->
+  <div class="section delay-7">
+    <div class="section-label">Did you know?</div>
+    <div class="section-title">What your IQ tells us</div>
+    <div class="fact-scroll" id="factList">
+      <!-- injected by JS -->
     </div>
-    <p style="font-size: 13px; color: rgba(255,255,255,0.8); margin-bottom: 20px; line-height: 1.5;">
-      Claim your copy of <strong>The High-IQ Wealth Playbook</strong> right now for a one-time 40% discount. 
+  </div>
+
+  <!-- ===== CERTIFICATE ===== -->
+  <div class="section delay-8">
+    <div class="section-label">Official Document</div>
+    <div class="section-title">Your certificate</div>
+    <div class="cert-outer">
+      <div class="cert-visual" id="certArea">
+        <div class="cert-watermark">IQ</div>
+        <div class="cert-org">IQPrecision Institute</div>
+        <div class="cert-h">Certificate of Intelligence</div>
+        <p class="cert-p">This certifies that</p>
+        <span class="cert-name-display" id="certNameDisplay">YOUR NAME</span>
+        <p class="cert-p">achieved an official IQ score of</p>
+        <div class="cert-score-line">IQ <strong id="certScoreVal">127</strong></div>
+        <div class="cert-footer">Verified by IQPrecision Cognitive Algorithm · 2026</div>
+      </div>
+      <div class="cert-controls">
+        <p style="font-size:13px; color:var(--text2); margin-bottom:4px;">Add your name to personalize:</p>
+        <input type="text" id="certNameInput" class="cert-input" placeholder="Your full name" maxlength="40">
+        <button class="cert-btn btn-gold-solid" onclick="applyCertName()">Apply Name</button>
+        <button class="cert-btn btn-outline" onclick="downloadCert()">Download as Image</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- UPSELL / DELIVERY -->
+  <div id="downsellOffer" class="upsell-block" style="margin-bottom: 48px;">
+    <div class="upsell-tag">Exclusive Offer</div>
+    <div class="upsell-h">You scored in the <span id="upsellPct">Top 5%</span>.<br>Here's how to use it.</div>
+    <p class="upsell-p">
+      The <strong>High-IQ Wealth Playbook</strong> shows you exactly how people with your cognitive profile have converted their intellectual edge into financial and career success — with 7 practical frameworks.
     </p>
-    <a href="https://go.centerpag.com/PPU38CQB768" style="display: block; width: 100%; padding: 16px; background: var(--gold); color: var(--dark-navy); font-size: 15px; font-weight: 800; border-radius: 12px; text-decoration: none; transition: transform 0.2s;">
-  Claim My Discount - Just $5.99
-    </a>
+    <a href="https://go.centerpag.com/PPU38CQB768" class="upsell-cta">Get The Playbook — $5.99</a>
   </div>
 
-  <div id="playbookDelivery" style="display: none; background: linear-gradient(135deg, #0B1628, #10B981); border: 2px solid #10B981; border-radius: 20px; padding: 28px 24px; margin-bottom: 32px; text-align: center; color: white;">
-    <div style="background: #ffffff; color: #10B981; font-size: 11px; font-weight: 800; text-transform: uppercase; padding: 4px 12px; border-radius: 20px; display: inline-block; margin-bottom: 16px;">
-      ✓ Purchase Successful
-    </div>
-    <div style="font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 800; color: white; margin-bottom: 12px;">
-      Your Playbook is Ready!
-    </div>
-    <p style="font-size: 13px; color: rgba(255,255,255,0.9); margin-bottom: 20px; line-height: 1.5;">
-      Thank you for upgrading. Click the button below to download your copy of <strong>The High-IQ Wealth Playbook</strong>.
-    </p>
+  <div id="deliveryBlock" class="delivery-block">
+    <div style="display:inline-block; background:var(--green-dim); border:1px solid rgba(61,184,135,0.3); color:var(--green); font-size:11px; font-weight:700; padding:5px 14px; border-radius:100px; margin-bottom:16px; letter-spacing:0.5px;">✓ Purchase Complete</div>
+    <div class="delivery-h">Your Playbook is Ready</div>
+    <p class="delivery-p">Thank you for upgrading. Download your copy below.</p>
     <a href="UNWASTE_YOUR_MIND.pdf" target="_blank" class="delivery-dl">Download The Playbook (PDF)</a>
   </div>
 
-  <div class="share-section">
-    <div class="share-title">Proud of your score?</div>
-    <div class="share-sub">Challenge your network to beat it.</div>
-    <div class="share-btns">
-      <button class="share-btn share-twitter" onclick="shareTwitter()">Share on X</button>
-      <button class="share-btn share-linkedin" onclick="shareLinkedIn()">LinkedIn</button>
+  <!-- SHARE -->
+  <div class="section" style="opacity:0; animation: slideUp 0.6s 1.5s forwards;">
+    <div style="background:var(--surface); border:1px solid var(--border); border-radius:20px; padding:24px; text-align:center;">
+      <div style="font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:700; margin-bottom:6px;">Proud of your score?</div>
+      <p style="font-size:13px; color:var(--text2); margin-bottom:20px;">Challenge your network to beat it.</p>
+      <div class="share-row">
+        <button class="share-btn" onclick="shareX()">Share on X (Twitter)</button>
+        <button class="share-btn" onclick="shareLinkedIn()">LinkedIn</button>
+      </div>
     </div>
   </div>
 
-</div>
+</div><!-- end body-wrap -->
 
-<div class="result-footer">
-  © 2026 IQPrecision · Results are for entertainment and self-discovery purposes.
+<div class="page-footer">
+  © 2026 IQPrecision · Results are for entertainment and self-discovery purposes only.
 </div>
 
 <script>
-  // Lógica Dinâmica do Score
-  window.addEventListener('load', () => {
-    
-    // --- LÓGICA DE DETECÇÃO DE COMPRA DO EBOOK ---
-    const urlParams = new URLSearchParams(window.location.search);
-    const boughtPlaybook = urlParams.get('playbook') === 'true';
+// ===== CELEBRITY DATABASE =====
+const CELEBS = [
+  {
+    minScore: 145,
+    name: "Elon Musk",
+    role: "CEO, Tesla & SpaceX — Est. IQ 155",
+    iq: 155,
+    emoji: "🚀",
+    insight: "<strong>You're in rare company.</strong> Elon Musk's estimated IQ of 155 puts him in the top 0.01%. Your score is exceptional — you share the cognitive raw material responsible for his pattern recognition and system-level thinking.",
+    badge: "You both sit in the same elite tier"
+  },
+  {
+    minScore: 135,
+    name: "Jeff Bezos",
+    role: "Founder of Amazon — Est. IQ 145",
+    iq: 145,
+    emoji: "📦",
+    insight: "Jeff Bezos transformed a humble bookstore into the world's most powerful logistics empire. <strong>His strength is long-range strategic thinking</strong> — the exact same cognitive trait your score reflects. He built Amazon using the same mental architecture you possess.",
+    badge: "Same cognitive tier as a billionaire"
+  },
+  {
+    minScore: 128,
+    name: "Mark Zuckerberg",
+    role: "CEO, Meta — Est. IQ 132",
+    iq: 132,
+    emoji: "📱",
+    insight: "Zuckerberg built a platform used by 3 billion people. <strong>Your pattern recognition and fluid intelligence score is comparable to his profile.</strong> He's said in interviews that connecting patterns others ignore was the key insight behind Facebook's original growth.",
+    badge: "You outscored the world's youngest billionaire"
+  },
+  {
+    minScore: 120,
+    name: "Barack Obama",
+    role: "44th President of the United States — Est. IQ 130",
+    iq: 130,
+    emoji: "🇺🇸",
+    insight: "Obama is widely cited as one of the most intellectually disciplined U.S. presidents. <strong>You're right in his range</strong> — and his career proves that this level of intelligence, applied consistently, produces extraordinary outcomes.",
+    badge: "Presidential-range intelligence"
+  },
+  {
+    minScore: 110,
+    name: "Napoleon Bonaparte",
+    role: "Military genius & Emperor — Est. IQ 125",
+    iq: 125,
+    emoji: "⚔️",
+    insight: "Napoleon read and synthesized information at an extraordinary pace and could hold entire battle maps in his memory. <strong>Your cognitive profile closely mirrors the analytical speed and system-thinking he was famous for.</strong>",
+    badge: "You're closing in on a historical genius"
+  },
+  {
+    minScore: 0,
+    name: "The average US college graduate",
+    role: "National average for university graduates — IQ 115",
+    iq: 115,
+    emoji: "🎓",
+    insight: "<strong>You already outperform the typical college graduate by a solid margin.</strong> This isn't a participation trophy — statistically, your score predicts significantly better outcomes in complex problem-solving, income potential and academic achievement.",
+    badge: "You outperformed the educated average"
+  }
+];
 
-    if (boughtPlaybook) {
-      document.getElementById('downsellOffer').style.display = 'none';
-      document.getElementById('playbookDelivery').style.display = 'block';
-    }
+// ===== BRAIN TYPES =====
+const BRAIN_TYPES = [
+  { min: 140, icon: "⚡", name: "The Visionary", sub: "Exceptional across all dimensions", traits: ["Big-picture architect","Rapid synthesis","Creative disruption","Effortless learning"], desc: "Your profile is off the charts. Visionaries at this level often reshape entire industries. Your pattern recognition and fluid intelligence combine into a rare ability to see solutions before problems are even visible to others." },
+  { min: 130, icon: "🔭", name: "The Strategist", sub: "High pattern recognition + fluid intelligence", traits: ["Systems thinker","Sees the big picture","Long-term planner","Persuasive communicator"], desc: "Your score pattern is consistent with a natural Strategist — someone who thinks several moves ahead, connects unrelated ideas effortlessly, and finds solutions others overlook. This profile is common among successful entrepreneurs, executives, and innovators." },
+  { min: 120, icon: "🧩", name: "The Analyst", sub: "Precision logic and structured reasoning", traits: ["Deep focus","Problem decomposer","High accuracy","Natural debugger"], desc: "You have a remarkable ability to break complex problems into clean components, evaluate each one, and reconstruct them into optimal solutions. Analysts like you thrive in environments where precision matters — tech, medicine, finance, and science." },
+  { min: 110, icon: "🌐", name: "The Connector", sub: "Verbal + social reasoning strengths", traits: ["Reads rooms intuitively","Cross-domain thinking","Strong communicator","Empathetic strategist"], desc: "Your verbal reasoning combines with strong fluid intelligence to create someone who bridges ideas and people. You explain complex topics simply, sense unspoken dynamics in groups, and build consensus — a rare leadership superpower." },
+  { min: 0, icon: "🛠", name: "The Builder", sub: "Strong practical + hands-on intelligence", traits: ["Grounded problem-solver","Consistent executor","Reliable under pressure","Clear communicator"], desc: "You have strong real-world intelligence — the kind that gets things done. Your profile suggests high reliability, structured thinking, and the ability to take abstract goals and turn them into concrete results." }
+];
 
-    // Puxa o QI do cache (ou usa 127 de backup)
-    const finalScore = parseInt(localStorage.getItem('iq_score')) || 127;
-    
-    // Injeta o Score na tela e no certificado
-    document.getElementById('scoreDisplay').innerText = finalScore;
-    document.getElementById('certScoreDisplayDynamic').innerText = finalScore;
-    document.getElementById('chartYou').innerText = `You (${finalScore})`;
-    
-    // Matemática Dinâmica
-    let percentile = "Top 12%";
-    let fillWidth = "82%";
-    let category = "Superior Intelligence";
-    let isMensa = "Below";
+// ===== CAREER DATA =====
+const CAREERS_HIGH = [
+  { emoji: "🏦", name: "Investment Banking", why: "Complex pattern reading and fast logical decisions" },
+  { emoji: "⚖️", name: "Law / Litigation", why: "Verbal precision and airtight logical chains" },
+  { emoji: "🧬", name: "Medical Research", why: "Fluid reasoning applied to novel problems" },
+  { emoji: "💻", name: "Software Architecture", why: "Systems thinking + deep pattern recognition" },
+  { emoji: "🎯", name: "Strategy Consulting", why: "High-speed synthesis of complex data" },
+  { emoji: "🚀", name: "Tech Entrepreneurship", why: "Connecting ideas others haven't mapped yet" }
+];
 
-    if (finalScore >= 130) { 
-      percentile = "Top 2%"; fillWidth = "95%"; category = "Gifted"; isMensa = "Qualified";
-    } else if (finalScore >= 125) { 
-      percentile = "Top 5%"; fillWidth = "88%"; category = "Superior Intelligence"; 
-    } else if (finalScore >= 120) { 
-      percentile = "Top 9%"; fillWidth = "85%"; category = "High Average"; 
-    } else { 
-      percentile = "Top 15%"; fillWidth = "78%"; category = "Above Average"; 
-    }
-    
-    // Atualiza Textos
-    document.getElementById('percentileDisplay').innerText = percentile; 
-    document.getElementById('scoreCategoryText').innerText = category;
-    document.getElementById('mensaStatus').innerText = isMensa;
-    if(isMensa === "Qualified") document.getElementById('mensaStatus').style.color = "#10B981";
-    document.getElementById('downsellPct').innerText = percentile; // Sincroniza a porcentagem no banner de downsell
+const CAREERS_MID = [
+  { emoji: "📊", name: "Data Analysis", why: "Your numerical pattern recognition is a rare asset" },
+  { emoji: "🏫", name: "Education / Training", why: "Ability to simplify complex ideas for others" },
+  { emoji: "📝", name: "Content Strategist", why: "Verbal reasoning + structured planning" },
+  { emoji: "🔬", name: "Research Roles", why: "Systematic thinking and high accuracy" },
+  { emoji: "📋", name: "Project Management", why: "Logical decomposition of multi-step problems" },
+  { emoji: "💼", name: "Business Development", why: "Pattern matching in markets and people" }
+];
 
-    // Atualiza Comparações
-    document.getElementById('cmpAvg').innerText = `+${finalScore - 100} points ↑`;
-    document.getElementById('cmpCollege').innerText = `+${finalScore - 115} points ↑`;
-    
-    const diffMensa = 130 - finalScore;
-    if(diffMensa <= 0) {
-        document.getElementById('cmpMensa').innerText = `Qualified (+${Math.abs(diffMensa)})`;
-        document.getElementById('cmpMensa').style.color = "#10B981";
-    } else {
-        document.getElementById('cmpMensa').innerText = `${diffMensa} points away`;
-    }
-    
-    document.getElementById('cmpGenius').innerText = `${145 - finalScore} points below`;
+// ===== MAIN LOGIC =====
+window.addEventListener('load', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('playbook') === 'true') {
+    document.getElementById('downsellOffer').style.display = 'none';
+    document.getElementById('deliveryBlock').style.display = 'block';
+  }
 
-    // Lógica de Comparação com Famosos
-    let celebText = "";
-    if (finalScore >= 130) {
-        celebText = "Outscored Mark Zuckerberg (Est. 128)";
-    } else if (finalScore >= 125) {
-        celebText = "Outscored John F. Kennedy (119)";
-    } else if (finalScore >= 120) {
-        celebText = "Outscored LeBron James (Est. 115)";
-    } else {
-        celebText = "Matches a College Professor (115)";
-    }
-    document.getElementById('celebrityMatch').innerText = celebText;
+  const finalScore = parseInt(localStorage.getItem('iq_score')) || 127;
 
-    // Anima a barra principal
-    setTimeout(() => { document.getElementById('pctFill').style.width = fillWidth; }, 300);
+  // Score display
+  document.getElementById('scoreDisplay').innerText = finalScore;
+  document.getElementById('certScoreVal').innerText = finalScore;
 
-    // Anima as barras menores (Breakdown sempre roda agora)
-    document.querySelectorAll('.bd-bar-fill').forEach(bar => {
-      const w = bar.getAttribute('data-width');
-      setTimeout(() => { bar.style.width = w + '%'; }, 600);
+  // Ring animation
+  const circumference = 2 * Math.PI * 96; // ~603
+  const fraction = Math.min((finalScore - 70) / (160 - 70), 1);
+  const offset = circumference * (1 - fraction);
+  setTimeout(() => {
+    document.getElementById('scoreArc').style.strokeDashoffset = offset;
+  }, 400);
+
+  // Category + stats
+  let category, percentile, percentileNum, mensaGap, beatOf100;
+  if (finalScore >= 145) {
+    category = "Genius Level"; percentile = "Top 0.1%"; percentileNum = 99.9; mensaGap = "Qualified"; beatOf100 = "99 of 100";
+  } else if (finalScore >= 135) {
+    category = "Highly Gifted"; percentile = "Top 1%"; percentileNum = 99; mensaGap = "Qualified"; beatOf100 = "99 of 100";
+  } else if (finalScore >= 130) {
+    category = "Gifted"; percentile = "Top 2%"; percentileNum = 98; mensaGap = "Qualified"; beatOf100 = "98 of 100";
+  } else if (finalScore >= 125) {
+    category = "Superior Intelligence"; percentile = "Top 5%"; percentileNum = 95; mensaGap = (130 - finalScore) + " pts"; beatOf100 = "95 of 100";
+  } else if (finalScore >= 120) {
+    category = "High Intelligence"; percentile = "Top 9%"; percentileNum = 91; mensaGap = (130 - finalScore) + " pts"; beatOf100 = "91 of 100";
+  } else if (finalScore >= 115) {
+    category = "Above Average"; percentile = "Top 16%"; percentileNum = 84; mensaGap = (130 - finalScore) + " pts"; beatOf100 = "84 of 100";
+  } else {
+    category = "Above Average"; percentile = "Top 25%"; percentileNum = 75; mensaGap = (130 - finalScore) + " pts"; beatOf100 = "75 of 100";
+  }
+
+  document.getElementById('scoreCategoryBadge').innerText = category;
+  document.getElementById('statPercentile').innerText = percentile;
+  document.getElementById('statMensa').innerText = mensaGap;
+  document.getElementById('statBeat').innerText = beatOf100;
+  document.getElementById('upsellPct').innerText = percentile;
+
+  // Celeb
+  const celeb = CELEBS.find(c => finalScore >= c.minScore) || CELEBS[CELEBS.length - 1];
+  document.getElementById('celebName').innerText = celeb.name;
+  document.getElementById('celebRole').innerText = celeb.role;
+  document.getElementById('celebIQVal').innerText = celeb.iq;
+  document.getElementById('celebYourVal').innerText = finalScore;
+  document.getElementById('celebInsight').innerHTML = celeb.insight;
+  document.getElementById('celebPhotoPlaceholder').innerText = celeb.emoji;
+
+  if (finalScore >= celeb.iq) {
+    const delta = finalScore - celeb.iq;
+    const badge = document.getElementById('celebBadge');
+    badge.style.display = 'inline-flex';
+    document.getElementById('celebBadgeText').innerText = `You outscored them by ${delta} points`;
+  } else {
+    const badge = document.getElementById('celebBadge');
+    badge.style.display = 'inline-flex';
+    badge.style.background = 'var(--blue-dim)';
+    badge.style.borderColor = 'rgba(74,144,217,0.25)';
+    badge.style.color = 'var(--blue)';
+    badge.querySelector('span:first-child').innerText = '→';
+    document.getElementById('celebBadgeText').innerText = celeb.badge;
+  }
+
+  // Brain type
+  const bt = BRAIN_TYPES.find(b => finalScore >= b.min) || BRAIN_TYPES[BRAIN_TYPES.length - 1];
+  document.getElementById('brainTypeIcon').innerText = bt.icon;
+  document.getElementById('brainTypeName').innerText = bt.name;
+  document.getElementById('brainTypeSub').innerText = bt.sub;
+  document.getElementById('brainDesc').innerHTML = bt.desc.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  const traitsEl = document.getElementById('brainTraits');
+  traitsEl.innerHTML = bt.traits.map(t => `<span class="brain-trait">${t}</span>`).join('');
+
+  // Comparison list
+  const comparisons = [
+    { icon: '🌍', label: 'US General Population', detail: 'Average IQ: 100', ref: 100, type: 'above' },
+    { icon: '🎓', label: 'US College Graduates', detail: 'Average IQ: 115', ref: 115, type: 'above' },
+    { icon: '🏆', label: 'Mensa Threshold', detail: 'Top 2% of the population', ref: 130, type: finalScore >= 130 ? 'above' : 'near' },
+    { icon: '💡', label: 'Genius Level', detail: 'Top 0.1% of the population', ref: 145, type: 'below' }
+  ];
+
+  const cl = document.getElementById('compareList');
+  cl.innerHTML = comparisons.map(c => {
+    const delta = finalScore - c.ref;
+    const sign = delta >= 0 ? '+' : '';
+    const cls = delta >= 5 ? 'above' : delta >= -5 ? 'near' : 'below';
+    return `<div class="compare-row">
+      <div class="compare-icon ${cls}">${c.icon}</div>
+      <div class="compare-meta">
+        <div class="compare-title">${c.label}</div>
+        <div class="compare-detail">${c.detail}</div>
+      </div>
+      <div class="compare-delta ${cls}">${sign}${delta}</div>
+    </div>`;
+  }).join('');
+
+  // Career grid
+  const careers = finalScore >= 125 ? CAREERS_HIGH : CAREERS_MID;
+  document.getElementById('careerGrid').innerHTML = careers.slice(0,4).map(c =>
+    `<div class="career-card">
+      <span class="career-emoji">${c.emoji}</span>
+      <div class="career-name">${c.name}</div>
+      <div class="career-why">${c.why}</div>
+    </div>`
+  ).join('');
+
+  // Fun facts
+  const facts = buildFacts(finalScore, percentile, category);
+  document.getElementById('factList').innerHTML = facts.map((f,i) =>
+    `<div class="fact-item">
+      <div class="fact-num">${i+1}</div>
+      <div class="fact-text">${f}</div>
+    </div>`
+  ).join('');
+
+  // Bell curve canvas
+  setTimeout(() => drawBell(finalScore), 500);
+
+  // Animate breakdown bars
+  setTimeout(() => {
+    document.querySelectorAll('.bd-fill').forEach(b => {
+      b.style.width = b.getAttribute('data-w') + '%';
     });
+  }, 700);
+});
+
+function buildFacts(score, percentile, cat) {
+  const diff = score - 100;
+  const pct = parseInt(score >= 130 ? 2 : score >= 120 ? 9 : score >= 110 ? 16 : 25);
+  return [
+    `Only <strong>${percentile} of the global population</strong> scores at your level or above. In a stadium of 80,000 people, you'd be in the top rows.`,
+    `Research from the University of Edinburgh shows that each <strong>additional IQ point above 100 correlates with ~$616 more in annual income</strong> on average — over a 40-year career, your score represents a significant financial edge.`,
+    `Your <strong>pattern recognition score (94/100)</strong> is associated with excellence in fields like software engineering, strategic consulting, and scientific research — where the ability to find signal in noise is worth more than any credential.`,
+    `<strong>Fluid intelligence — your second-highest score — peaks in the late 20s to mid-30s</strong>, then slowly declines unless actively exercised. The good news: regular chess, math puzzles, and learning new languages preserve it.`,
+    `<strong>IQ stability is remarkable:</strong> studies show that your score at age 25 predicts your score at age 65 with about 75% accuracy. You're not going to wake up dumber. This is who you are.`
+  ];
+}
+
+// ===== BELL CURVE =====
+function drawBell(score) {
+  const canvas = document.getElementById('bellCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+
+  function bell(x) {
+    return Math.exp(-0.5 * Math.pow((x - 100) / 15, 2));
+  }
+
+  ctx.clearRect(0, 0, W, H);
+
+  const xMin = 55, xMax = 160;
+  const toCanvasX = x => ((x - xMin) / (xMax - xMin)) * W;
+
+  // Fill area
+  ctx.beginPath();
+  ctx.moveTo(toCanvasX(xMin), H - 10);
+  for (let x = xMin; x <= xMax; x += 0.5) {
+    ctx.lineTo(toCanvasX(x), (H - 10) - bell(x) * (H - 30));
+  }
+  ctx.lineTo(toCanvasX(xMax), H - 10);
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(201,168,76,0.12)';
+  ctx.fill();
+
+  // Curve line
+  ctx.beginPath();
+  ctx.moveTo(toCanvasX(xMin), H - 10);
+  for (let x = xMin; x <= xMax; x += 0.5) {
+    ctx.lineTo(toCanvasX(x), (H - 10) - bell(x) * (H - 30));
+  }
+  ctx.strokeStyle = 'rgba(201,168,76,0.4)';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Score fill (highlight right of score)
+  ctx.beginPath();
+  ctx.moveTo(toCanvasX(score), (H - 10) - bell(score) * (H - 30));
+  for (let x = score; x <= xMax; x += 0.5) {
+    ctx.lineTo(toCanvasX(x), (H - 10) - bell(x) * (H - 30));
+  }
+  ctx.lineTo(toCanvasX(xMax), H - 10);
+  ctx.lineTo(toCanvasX(score), H - 10);
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(201,168,76,0.3)';
+  ctx.fill();
+
+  // Score line
+  const sx = toCanvasX(score);
+  ctx.beginPath();
+  ctx.moveTo(sx, H - 10);
+  ctx.lineTo(sx, (H - 10) - bell(score) * (H - 30) - 4);
+  ctx.strokeStyle = '#C9A84C';
+  ctx.lineWidth = 2.5;
+  ctx.setLineDash([]);
+  ctx.stroke();
+
+  // Score label
+  const labelX = Math.min(Math.max(sx, 20), W - 60);
+  ctx.fillStyle = '#C9A84C';
+  ctx.font = '700 13px DM Sans, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('YOU', labelX, (H - 10) - bell(score) * (H - 30) - 14);
+  ctx.fillText(score, labelX, (H - 10) - bell(score) * (H - 30) - 28);
+}
+
+// ===== CERT =====
+function applyCertName() {
+  const val = document.getElementById('certNameInput').value.trim();
+  if (!val) { alert('Please enter your name.'); return; }
+  document.getElementById('certNameDisplay').innerText = val.toUpperCase();
+  document.getElementById('certNameDisplay').style.color = 'var(--gold2)';
+}
+
+function downloadCert() {
+  const btn = document.querySelector('.btn-outline');
+  btn.innerText = 'Generating...';
+  html2canvas(document.getElementById('certArea'), { scale: 3, useCORS: true }).then(canvas => {
+    const a = document.createElement('a');
+    a.download = 'IQ_Certificate.png';
+    a.href = canvas.toDataURL('image/png');
+    a.click();
+    btn.innerText = 'Download as Image';
   });
+}
 
-  // Função para atualizar o nome no Certificado
-  function updateCertificateName() {
-    const nameInput = document.getElementById('nameInput').value;
-    const nameDisplay = document.getElementById('certNameDisplay');
-    
-    if (nameInput.trim() !== "") {
-      nameDisplay.innerText = nameInput.toUpperCase();
-      nameDisplay.style.color = "var(--gold)";
-    } else {
-      alert("Please enter your name first.");
-    }
-  }
+// ===== SHARE =====
+const SITE = 'https://iqprecision.online/';
 
-  // A URL que você quer que viralize (O SEU INDEX)
-  const VIRAL_SITE_URL = 'https://iqprecision.online/';
+function shareX() {
+  const score = parseInt(localStorage.getItem('iq_score')) || 127;
+  const text = encodeURIComponent(`I just scored ${score} IQ on IQPrecision — placing me in the top tier nationally. Can you beat my score?`);
+  window.open(`https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(SITE)}`, '_blank');
+}
 
-  // Botões de Compartilhamento apontando para o INDEX
-  function shareTwitter() {
-    const score = parseInt(localStorage.getItem('iq_score')) || 127;
-    const text = encodeURIComponent(`I just scored ${score} on the IQPrecision test, placing me in the top tier nationally. Can you beat my score?`);
-    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(VIRAL_SITE_URL)}`, '_blank');
-  }
-
-  function shareLinkedIn() {
-    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(VIRAL_SITE_URL)}`, '_blank');
-  }
-  
-  // Função para baixar o certificado como imagem perfeita (PNG)
-  function downloadCertificate() {
-    // Muda o texto do botão pra dar um feedback visual
-    const btn = document.querySelector('.btn-print');
-    const originalText = btn.innerText;
-    btn.innerText = "Generating...";
-    
-    // Pega exatamente a caixa do certificado
-    const certArea = document.getElementById('certificateDownloadArea');
-
-    // Usa o html2canvas para "tirar o print" do elemento
-    html2canvas(certArea, {
-      scale: 3, // Aumenta a qualidade (fica em alta resolução)
-      backgroundColor: null, // Mantém as cores originais exatas
-      useCORS: true // Garante que as fontes carreguem certo na imagem
-    }).then(canvas => {
-      // Cria um link temporário para forçar o download
-      const link = document.createElement('a');
-      link.download = 'Official_IQ_Certificate.png';
-      link.href = canvas.toDataURL('image/png');
-      link.click(); // Simula o clique
-      
-      // Volta o texto do botão ao normal
-      btn.innerText = originalText;
-    });
-  }
+function shareLinkedIn() {
+  window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(SITE)}`, '_blank');
+}
 </script>
 </body>
 </html>
