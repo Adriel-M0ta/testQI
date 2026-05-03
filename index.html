@@ -1015,7 +1015,7 @@ src="https://www.facebook.com/tr?id=27225033893761445&ev=PageView&noscript=1"
       </div>
       <div class="divider-v"></div>
       <div class="stat-item">
-        <span class="stat-num">13</span>
+        <span class="stat-num">25</span>
         <span class="stat-label">Questions</span>
       </div>
       <div class="divider-v"></div>
@@ -1066,7 +1066,7 @@ src="https://www.facebook.com/tr?id=27225033893761445&ev=PageView&noscript=1"
 <section id="quiz" class="section">
   <div class="quiz-header">
     <div class="q-logo">IQ<span>Precision</span></div>
-    <div class="q-counter">Question <span id="qNum">1</span> of 13</div>
+    <div class="q-counter">Question <span id="qNum">1</span> of 25</div>
   </div>
 
   <div class="progress-wrap">
@@ -1750,53 +1750,72 @@ src="https://www.facebook.com/tr?id=27225033893761445&ev=PageView&noscript=1"
 
 <script>
 const QUESTIONS = [
+  // FASE 1: AQUECIMENTO (Gerando Confiança)
   {
     category: "PATTERN RECOGNITION",
-    text: "What comes next in the sequence? 2, 6, 18, 54, ___",
-    options: ["108", "162", "72", "216"],
+    text: "Which number comes next? 2, 4, 8, 16, ___",
+    options: ["24", "32", "64", "20"],
     correct: 1,
-    tension: "Only 23% of test-takers get this one right."
+    tension: "Warming up your cognitive pathways."
   },
   {
-    category: "LOGICAL REASONING",
-    text: "If all Bloops are Razzles and all Razzles are Lazzles, are all Bloops definitely Lazzles?",
-    options: ["Yes", "No", "Cannot determine", "Sometimes"],
+    category: "VERBAL LOGIC",
+    text: "Ocean is to Water as Forest is to ___",
+    options: ["Trees", "Leaves", "Animals", "Green"],
     correct: 0,
-    tension: "This question filters out average minds."
+    tension: "Establishing your baseline processing speed."
   },
+  // QUEBRA DE PADRÃO 1 (Perfil)
+  {
+    category: "COGNITIVE STYLE",
+    text: "When facing a complex problem, what is your initial approach?",
+    options: ["Break it into smaller pieces", "Look for the hidden pattern", "Rely on past experience", "Brainstorm wild ideas"],
+    correct: -1, // -1 significa que não tem resposta errada (Perfil)
+    tension: "Analyzing your problem-solving archetype."
+  },
+  {
+    category: "SPATIAL REASONING",
+    text: "If you rotate a lowercase 'b' 180 degrees, it becomes a:",
+    options: ["p", "q", "d", "b"],
+    correct: 1,
+    tension: "Only 68% of people visualize this instantly."
+  },
+  {
+    category: "LOGICAL DEDUCTION",
+    text: "If all Zips are Zaps, and all Zaps are Zops, are all Zips definitively Zops?",
+    options: ["Yes", "No", "Cannot be determined", "Only sometimes"],
+    correct: 0,
+    tension: "Testing your formal logic frameworks."
+  },
+
+  // FASE 2: AUMENTANDO A TENSÃO
   {
     category: "NUMERICAL SERIES",
     text: "Find the missing number: 1, 4, 9, 16, ___, 36",
     options: ["20", "25", "30", "22"],
     correct: 1,
-    tension: "Top 10% of test-takers finish this in under 8 seconds."
+    tension: "Top 10% finish this in under 6 seconds."
   },
+  // QUEBRA DE PADRÃO 2 (Perfil)
   {
-    category: "SPATIAL REASONING",
-    text: "A cube has 6 faces. If you unfold it flat, how many different nets are possible?",
-    options: ["9", "11", "14", "8"],
-    correct: 1,
-    tension: "Less than 18% of adults answer this correctly."
-  },
-  {
-    category: "VERBAL LOGIC",
-    text: "\"Book\" is to \"Library\" as \"Painting\" is to ___",
-    options: ["Canvas", "Museum", "Artist", "Color"],
-    correct: 1,
-    tension: "You're performing above the average curve so far."
+    category: "INFORMATION PROCESSING",
+    text: "How do you prefer to absorb new information?",
+    options: ["Visualizing charts & diagrams", "Reading detailed text", "Listening to explanations", "Learning by doing"],
+    correct: -1,
+    tension: "Mapping your primary learning modality."
   },
   {
     category: "WORKING MEMORY",
-    text: "Reverse this number sequence mentally: 7, 3, 9, 1, 5. What is the middle digit?",
-    options: ["9", "1", "3", "5"],
-    correct: 0,
-    tension: "Only 31% of people pass the memory threshold at this stage."
+    text: "Reverse this sequence mentally: 8, 3, 9, 1, 5. What is the 4th number?",
+    options: ["9", "1", "3", "8"],
+    correct: 2,
+    tension: "Only 31% pass the short-term memory threshold here."
   },
   {
     category: "ABSTRACT REASONING",
-    text: "Which number does NOT belong? 3, 7, 11, 13, 15, 17",
-    options: ["11", "13", "15", "7"],
-    correct: 2,
+    text: "Which number does NOT belong? 3, 7, 11, 14, 17",
+    options: ["11", "14", "17", "7"],
+    correct: 1, // 14 não é primo
     tension: "This distinguishes analytical thinkers from the rest."
   },
   {
@@ -1804,23 +1823,49 @@ const QUESTIONS = [
     text: "Complete the series: A, C, F, J, O, ___",
     options: ["T", "U", "V", "S"],
     correct: 1,
-    tension: "You're approaching the score threshold for high intelligence."
+    tension: "You're approaching the threshold for high intelligence."
   },
+
+  // FASE 3: O FILTRO DO MENSAN (Matemática rápida e armadilhas)
+  // QUEBRA DE PADRÃO 3 (Perfil)
   {
-    category: "LOGICAL DEDUCTION",
-    text: "Tom is taller than Sam. Sam is taller than Mike. Who is the shortest?",
-    options: ["Tom", "Sam", "Mike", "Cannot tell"],
-    correct: 2,
-    tension: "98% get this — but the next one will challenge you."
+    category: "STRESS RESPONSE",
+    text: "Under strict deadlines, your cognitive performance usually:",
+    options: ["Improves significantly", "Remains stable", "Decreases slightly", "Requires complete silence"],
+    correct: -1,
+    tension: "Calibrating fluid intelligence under pressure."
   },
   {
     category: "FLUID INTELLIGENCE",
-    text: "If you have 3 apples and take away 2, how many apples do YOU have?",
-    options: ["1", "2", "3", "0"],
-    correct: 1,
-    tension: "We are calibrating your cognitive speed."
+    text: "If you have 4 apples and take away 3, how many apples do YOU have?",
+    options: ["1", "4", "3", "0"],
+    correct: 2,
+    tension: "We are monitoring your intuitive reaction speed."
   },
-  // --- AS 3 NOVAS PERGUNTAS ---
+  {
+    category: "ANALYTICAL REASONING",
+    text: "A bat and a ball cost $1.10 in total. The bat costs $1.00 more than the ball. How much does the ball cost?",
+    options: ["$0.10", "$0.05", "$1.00", "$0.01"],
+    correct: 1,
+    tension: "More than 50% of Ivy League students miss this initially."
+  },
+  {
+    category: "LOGICAL TRAP",
+    text: "If it takes 5 machines 5 minutes to make 5 widgets, how long would it take 100 machines to make 100 widgets?",
+    options: ["100 minutes", "5 minutes", "50 minutes", "1 minute"],
+    correct: 1,
+    tension: "Testing resistance to cognitive biases."
+  },
+  // QUEBRA DE PADRÃO 4 (Perfil)
+  {
+    category: "SOCIAL INTELLIGENCE",
+    text: "In a group setting, you are usually the one who:",
+    options: ["Leads the conversation", "Observes and analyzes", "Mediates conflicts", "Focuses on the final goal"],
+    correct: -1,
+    tension: "Integrating emotional intelligence markers."
+  },
+
+  // FASE 4: O DESAFIO FINAL (Perguntas visuais/lógicas sem matemática complexa)
   {
     category: "COGNITIVE FLEXIBILITY",
     text: "Some months have 31 days. How many have 28?",
@@ -1829,18 +1874,71 @@ const QUESTIONS = [
     tension: "A classic trap. Don't let your brain take shortcuts."
   },
   {
-    category: "ANALYTICAL REASONING",
-    text: "A bat and a ball cost $1.10 in total. The bat costs $1.00 more than the ball. How much does the ball cost?",
-    options: ["$0.10", "$0.05", "$1.00", "$0.01"],
-    correct: 1,
-    tension: "More than 50% of Ivy League students get this wrong intuitively."
-  },
-  {
     category: "SPATIAL DEDUCTION",
-    text: "If you turn a right glove inside out, it will fit on your:",
+    text: "If you turn a right-hand glove inside out, it will fit on your:",
     options: ["Right hand", "Left hand", "Neither", "Both"],
     correct: 1,
-    tension: "Final question. Processing your cognitive mapping."
+    tension: "Evaluating 3D spatial manipulation."
+  },
+  {
+    category: "VERBAL REASONING",
+    text: "Which word is the odd one out?",
+    options: ["Apple", "Banana", "Carrot", "Tomato"],
+    correct: 2, // Os outros são frutas (botanicamente)
+    tension: "Differentiating deep semantic categories."
+  },
+  // QUEBRA DE PADRÃO 5 (Perfil)
+  {
+    category: "DECISION MAKING",
+    text: "When making a crucial life decision, you rely more on:",
+    options: ["Gut feeling / Intuition", "Hard data and pros/cons", "Advice from trusted peers", "Historical precedents"],
+    correct: -1,
+    tension: "Finalizing your cognitive archetype profile."
+  },
+  {
+    category: "PATTERN COMPLETION",
+    text: "Monday, Wednesday, Friday, Sunday, ___",
+    options: ["Monday", "Tuesday", "Wednesday", "Thursday"],
+    correct: 1,
+    tension: "You're in the top percentile of active participants."
+  },
+
+  // FASE 5: SPRINT FINAL
+  {
+    category: "LOGICAL PROGRESSION",
+    text: "If yesterday was tomorrow, today would be Friday. What day is today?",
+    options: ["Wednesday", "Thursday", "Friday", "Sunday"],
+    correct: 0,
+    tension: "This requires holding multiple timelines in memory."
+  },
+  {
+    category: "VISUAL LOGIC",
+    text: "What has keys but can't open locks?",
+    options: ["A map", "A piano", "A dictionary", "A puzzle"],
+    correct: 1,
+    tension: "Testing lateral thinking."
+  },
+  // QUEBRA DE PADRÃO 6 (Perfil)
+  {
+    category: "ATTENTION TO DETAIL",
+    text: "When reading a long document, you typically:",
+    options: ["Skim for main points", "Read every single word", "Jump to the conclusion", "Look at headers only"],
+    correct: -1,
+    tension: "Generating your precision accuracy score."
+  },
+  {
+    category: "NUMERICAL AGILITY",
+    text: "What is half of a quarter of 400?",
+    options: ["100", "50", "25", "200"],
+    correct: 1,
+    tension: "Almost done. Processing final algorithms."
+  },
+  {
+    category: "FINAL ASSESSMENT",
+    text: "You are running in a race and you pass the person in 2nd place. What place are you in now?",
+    options: ["1st", "2nd", "3rd", "Last"],
+    correct: 1,
+    tension: "Test complete. Preparing your deep analysis."
   }
 ];
 
